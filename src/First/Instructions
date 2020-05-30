@@ -1,0 +1,15 @@
+Instructions to use this Stage:
+
+
+1. Use circle for adding ball as projectile.
+2. Use rectangle as obstacles (ex: wall, human etc)
+3. Use L for scaling down X axis, R for scaling up X axis
+4. Use D for scaling down Y axis, U for scaling up Y axis
+5. Move the ball and obstacle by dragging
+6. Add parameters by right click on mouse
+7. Use start button to see the simulation
+8. Use pause for stopping at any time
+9. Move the ball during the motion to see position of any time using A and S
+10. Use reset button to start again
+
+🄿🅁🄾🄹🄴🄲🅃🄸🄻🄴

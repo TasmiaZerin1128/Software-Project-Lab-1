@@ -1,0 +1,62 @@
+1)
+A player in Vikendi throws rock with a velocity of 35 m/s making 60 degree angle with the
+horizontal line. Find out the maximum Height of the rock.
+#
+rock
+sphere
+VAR
+v
+35
+theta
+60
+ANS
+Height
+CENTER
+200
+650
+MUL
+6
+4.5
+END
+2)
+Goku throws a ball vertically upward at speed of 40m/s. At what maximum height the
+ball will reach?
+#
+dbz
+sphere
+VAR
+v
+40
+theta
+90
+ANS
+Height
+CENTER
+200
+650
+MUL
+6
+4.5
+END
+3)
+A tank fires a bullet from tank gun horizontally with a velocity of 980m/s. It reaches
+the ground at 2s. Calculate the height of the tank.
+#
+tank
+ellipse
+VAR
+v
+980
+theta
+0
+T
+2
+ANS
+yAxisD
+CENTER
+734
+465
+MUL
+0.3
+10
+END

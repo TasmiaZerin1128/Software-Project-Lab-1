@@ -1,0 +1,80 @@
+1)
+A basketball is thrown at a velocity of 40 m/s. Determine the maximum Horizontal Range
+of the projectile.
+#
+basketball
+sphere
+VAR
+v
+40
+theta
+45
+ANS
+Range
+CENTER
+200
+650
+MUL
+6
+4.5
+END
+2)
+A player in Vikendi throws rock with a velocity of 35 m/s making 60 degree angle with the
+horizontal line. Find out the maximum Height and Horizontal Range of the rock.
+#
+rock
+sphere
+VAR
+v
+35
+theta
+60
+ANS
+Range
+CENTER
+200
+650
+MUL
+6
+4.5
+END
+3)
+A projectile is thrown at a velocity of 40 m/s and an angle of 60 degree with the horizontal line.
+Find out the range of it.
+#
+projectile
+sphere
+VAR
+v
+40
+theta
+60
+ANS
+Range
+CENTER
+200
+650
+MUL
+6
+4.5
+END
+4)
+A football is kicked at the velocity of 30 m/s and an angle of 30 degree with the ground. Find
+the horizontal range.
+#
+football
+sphere
+VAR
+v
+30
+theta
+30
+ANS
+Range
+CENTER
+200
+650
+MUL
+6
+4.5
+END

@@ -1,0 +1,64 @@
+1)
+In a football field, a football crosses 17 m before hitting the ground. If initially the ball is
+thrown from 1.5 m above the ground with 16 degree angle, determine its initial velocity.
+#
+FFootball
+sphere
+VAR
+v
+15.51
+theta
+16
+T
+1.14
+ANS
+initialVelo
+CENTER
+200
+400
+MUL
+30
+60
+END
+2)
+A football is kicked with a velocity of 30 m/s making an angle of 30 degree with the ground.
+What will be the velocity of it after 1 second?
+#
+football
+sphere
+VAR
+v
+30
+theta
+30
+T
+1
+ANS
+Velocity
+CENTER
+200
+650
+MUL
+10
+10
+END
+3)
+The horizontal range of a projectile is 79.53 m and flight time is 5.3 s. Find out the initial
+velocity of the projectile.
+#
+object
+sphere
+VAR
+v
+30
+theta
+60
+ANS
+initialVelo
+CENTER
+200
+700
+MUL
+15
+10
+END
