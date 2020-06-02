@@ -33,6 +33,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Set;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.multiplyExact;
@@ -109,7 +110,9 @@ public class medium {
     Label wrongV0 = new Label();
     Label wrongV = new Label();
 
-    public void Medium(Stage primaryStage) throws FileNotFoundException, IOException {
+    int num;
+
+    public void Medium(Stage primaryStage,int exam, Set<Integer> numbers, int qTotal) throws FileNotFoundException, IOException {
         Pane root = new Pane();
 
         Stage size = new Stage();
@@ -177,7 +180,14 @@ public class medium {
 
         String st;
         int line = 0;
-        int num = randInt(1,7);
+        if(exam==0) {
+            num = randInt(1, 7);
+        } else
+        {
+            num = numbers.iterator().next();
+            System.out.println(num);
+            numbers.remove(num);
+        }
         //int num = 1;
         ArrayList<String> ques = new ArrayList<String>();
         while (sc.hasNextLine()) {
@@ -407,25 +417,16 @@ public class medium {
         Button St = new Button("Submit");
         St.setPadding(new Insets(15));
         setStyle(St);
-        St.setTranslateX(1400);
+        St.setTranslateX(870);
         St.setTranslateY(730);
+        St.setPrefSize(150,50);
 
         Button en = new Button("Enter Answers");
         en.setPadding(new Insets(15));
-        en.setStyle("-fx-padding: 8 15 15 15;\n" +
-                "    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;\n" +
-                "    -fx-background-radius: 8;\n" +
-                "    -fx-background-color: \n" +
-                "        linear-gradient(from 0% 93% to 0% 100%, #8d9092 0%, #717375 100%),\n" +
-                "        #8d9092,\n" +
-                "        #717375,\n" +
-                "        radial-gradient(center 50% 50%, radius 100%, #ffffff, #a1a3a6);\n" +
-                "    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );\n" +
-                "    -fx-font-weight: bold;\n" +
-                "    -fx-font-size: 1.1em;");
-        en.setPrefSize(150,70);
+        setStyle(en);
+        en.setPrefSize(150,50);
         en.setTranslateX(700);
-        en.setTranslateY(700);
+        en.setTranslateY(730);
 
         en.setOnAction(e -> {
             try {
@@ -970,32 +971,69 @@ public class medium {
 
         Button back = new Button("Back");
         back.setTranslateX(50);
-        back.setTranslateY(20);
-        back.setStyle("-fx-padding: 8 15 15 15;\n" +
-                "    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;\n" +
-                "    -fx-background-radius: 8;\n" +
-                "    -fx-background-color: \n" +
-                "        linear-gradient(from 0% 93% to 0% 100%, #8d9092 0%, #717375 100%),\n" +
-                "        #8d9092,\n" +
-                "        #717375,\n" +
-                "        radial-gradient(center 50% 50%, radius 100%, #ffffff, #a1a3a6);\n" +
-                "    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );\n" +
-                "    -fx-font-weight: bold;\n" +
-                "    -fx-font-size: 1.1em;");
+        back.setTranslateY(730);
+        setStyle(back);
         back.setPrefSize(60, 30);
 
-        back.setOnAction(e->{
-            try {
-                solve goBack = new solve();
-                goBack.start(primaryStage,0);
-            }catch (Exception ex)
+        if(exam==0) {
+            back.setOnAction(e -> {
+                try {
+                    solve goBack = new solve();
+                    goBack.start(primaryStage, 0);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            });
+        } else
+        {
+            back.setOnAction(e -> {
+                try {
+                    examSM goBack = new examSM();
+                    goBack.SM(primaryStage);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            });
+        }
+
+        Button next = new Button("Next");
+        next.setTranslateX(1400);
+        next.setTranslateY(730);
+        setStyle(next);
+        next.setPrefSize(80, 30);
+        next.setOnAction(e->{
+            if(exam==0)
             {
-                ex.printStackTrace();
+                easy goEasy = new easy();
+                try {
+                    goEasy.EASY(primaryStage,0,numbers,qTotal);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            } else
+            {
+                if(qTotal>2) {
+                    medium goMedium = new medium();
+                    try {
+                        goMedium.Medium(primaryStage, 1, numbers, (qTotal-1));
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
+                else
+                {
+                    hard goHard = new hard();
+                    try {
+                        goHard.Hard(primaryStage, 1, numbers, (qTotal-1));
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
             }
         });
 
         Image background = new Image(new FileInputStream(Type));
-        root.getChildren().addAll(cn,back,St,L,en,ANS,ss,rt,vs);
+        root.getChildren().addAll(cn,back,next,St,L,en,ANS,ss,rt,vs);
         if (projectileType == 0) {
             root.getChildren().add(ball);
         } else

@@ -1,5 +1,12 @@
 package First;
 
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
 import java.net.*;
 import java.io.*;
 import java.util.Iterator;
@@ -10,7 +17,8 @@ public class Server {
     private Socket socket = null;
     private ServerSocket server = null;
 
-    public Server(int port,Set<Integer> qNo) throws IOException {
+    public Server(int port, Set<Integer> qNo) throws IOException {
+
         try {
             InetAddress localhost = InetAddress.getLocalHost();
             System.out.println(localhost);
@@ -35,6 +43,7 @@ public class Server {
         System.out.println("Closing connection");
         socket.close();
         dOUT.close();
+
     }
 }
 

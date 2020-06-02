@@ -88,6 +88,7 @@ public class easy {
     Label wrongTmax = new Label();
 
     int marks;
+    int points=0;
 
     public void EASY(Stage primaryStage, int exam, Set<Integer> numbers, int qTotal) throws FileNotFoundException, IOException {
         Pane root = new Pane();
@@ -162,7 +163,7 @@ public class easy {
         
         String st;
         if(exam==0) {
-            num = randInt(1, 6);
+            num = randInt(1, 7);
         } else
         {
             num = numbers.iterator().next();
@@ -600,6 +601,7 @@ public class easy {
                         if (check == 0) {
                             ANS.setText("Correct Answer");
                             ANS.setFill(Color.WHITE);
+                            points+=marks;
                         } else if (check == 1) {
                             ANS.setText("Wrong Answer");
                             ANS.setFill(Color.RED);
@@ -800,10 +802,19 @@ public class easy {
                 }
             } else
             {
-                if(qTotal>1) {
+                if(qTotal>4) {
                     easy goEasy = new easy();
                     try {
                         goEasy.EASY(primaryStage, 1, numbers, (qTotal-1));
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
+                else
+                {
+                    medium goMedium = new medium();
+                    try {
+                        goMedium.Medium(primaryStage, 1, numbers, (qTotal-1));
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }

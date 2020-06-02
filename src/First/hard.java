@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Set;
 
 public class hard {
     double t = 0,t2=0;
@@ -121,7 +122,9 @@ public class hard {
     Image Target;
     Image TargetF;
 
-    public void Hard(Stage primaryStage) throws FileNotFoundException, IOException {
+    int num;
+
+    public void Hard(Stage primaryStage, int exam, Set<Integer> numbers, int qTotal) throws FileNotFoundException, IOException {
         Pane root = new Pane();
 
         Stage size = new Stage();
@@ -195,7 +198,14 @@ public class hard {
 
         String st;
         int line = 0;
-        int num = randInt(1,7);
+        if(exam==0) {
+            num = randInt(1, 7);
+        } else
+        {
+            num = numbers.iterator().next();
+            System.out.println(num);
+            numbers.remove(num);
+        }
         //int num = 2;
         ArrayList<String> ques = new ArrayList<String>();
         while (sc.hasNextLine()) {
@@ -547,25 +557,16 @@ public class hard {
         Button St = new Button("Submit");
         St.setPadding(new Insets(15));
         setStyle(St);
-        St.setTranslateX(1400);
+        St.setTranslateX(870);
         St.setTranslateY(730);
+        St.setPrefSize(150,50);
 
         Button en = new Button("Enter Answers");
         en.setPadding(new Insets(15));
-        en.setStyle("-fx-padding: 8 15 15 15;\n" +
-                "    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;\n" +
-                "    -fx-background-radius: 8;\n" +
-                "    -fx-background-color: \n" +
-                "        linear-gradient(from 0% 93% to 0% 100%, #8d9092 0%, #717375 100%),\n" +
-                "        #8d9092,\n" +
-                "        #717375,\n" +
-                "        radial-gradient(center 50% 50%, radius 100%, #ffffff, #a1a3a6);\n" +
-                "    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );\n" +
-                "    -fx-font-weight: bold;\n" +
-                "    -fx-font-size: 1.1em;");
-        en.setPrefSize(150, 45);
+        setStyle(en);
+        en.setPrefSize(150, 50);
         en.setTranslateX(700);
-        en.setTranslateY(735);
+        en.setTranslateY(730);
 
         en.setOnAction(e -> {
             try {
@@ -1189,7 +1190,7 @@ public class hard {
         
         Button back = new Button("Back");
         back.setTranslateX(50);
-        back.setTranslateY(20);
+        back.setTranslateY(730);
         back.setStyle("-fx-padding: 8 15 15 15;\n" +
                 "    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;\n" +
                 "    -fx-background-radius: 8;\n" +
@@ -1212,8 +1213,46 @@ public class hard {
             }
         });
 
+        Button next = new Button("Next");
+        next.setTranslateX(1400);
+        next.setTranslateY(730);
+        setStyle(next);
+        next.setPrefSize(80, 30);
+        next.setOnAction(e->{
+            if(exam==0)
+            {
+                easy goEasy = new easy();
+                try {
+                    goEasy.EASY(primaryStage,0,numbers,qTotal);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            } else
+            {
+                if(qTotal>1) {
+                    hard goHard = new hard();
+                    try {
+                        goHard.Hard(primaryStage, 1, numbers, (qTotal-1));
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
+                else
+                {
+                    System.out.println("The End");
+                    LeaderBoard goLB = new LeaderBoard();
+                    try {
+                        goLB.Board(primaryStage);
+                    } catch (FileNotFoundException fileNotFoundException) {
+                        fileNotFoundException.printStackTrace();
+                    }
+                }
+            }
+        });
+
+
         Image background = new Image(new FileInputStream(TypeF));
-        root.getChildren().addAll(cn, back, shadow, St, L, en,ANS,ss,rt,vs);
+        root.getChildren().addAll(cn, back,next, shadow, St, L, en,ANS,ss,rt,vs);
         if (projectileType == 0) {
             if(objNum==1)
             root.getChildren().add(ball);

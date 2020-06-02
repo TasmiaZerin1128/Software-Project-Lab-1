@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class examSM {
     public void SM (Stage primaryStage) throws FileNotFoundException {
@@ -67,6 +68,20 @@ public class examSM {
             }
         });
 
+        Text wait = new Text("Waiting for others to join...");
+        wait.setFill(Color.WHITE);
+        wait.setTranslateX(700);
+        wait.setTranslateY(400);
+        wait.setScaleX(3);
+        wait.setScaleY(3);
+        //wait.setVisible(false);
+
+        Button Start = new Button("Start");
+        Start.setTranslateX(670);
+        Start.setTranslateY(280);
+        setStyle(Start);
+        Start.setPrefSize(180,80);
+
         Single.setOnAction(e->{
             exam goExam = new exam();
             try {
@@ -77,6 +92,12 @@ public class examSM {
         });
 
         Multi.setOnAction(e->{
+            root.getChildren().removeAll(Single,Multi);
+            root.getChildren().addAll(wait,Start);
+        });
+
+        Start.setOnAction(e->{
+            wait.setVisible(true);
             multiplayer goMulti = new multiplayer();
             try {
                 goMulti.Multi(primaryStage);

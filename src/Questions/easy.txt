@@ -103,3 +103,25 @@ TimeMax
 POINT
 3
 END
+7)
+A projectile is thrown at a velocity of 40 m/s and an angle of 60 degree with the horizontal line.
+Find out:
+1. Maximum Height
+2. Time to reach maximum height
+3. Horizontal Range
+4. Time to hit the ground
+#
+projectile
+VAR
+v
+40
+theta
+60
+ANS
+Height
+time
+Range
+TimeMax
+POINT
+3
+END

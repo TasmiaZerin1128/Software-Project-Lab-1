@@ -180,7 +180,7 @@ public class solve {
         medium.setOnAction(e->{
             try {
                 medium goMedium = new medium();
-                goMedium.Medium(primaryStage);
+                goMedium.Medium(primaryStage,0,generatedMedium,5);
             }
             catch (Exception ex)
             {
@@ -191,7 +191,7 @@ public class solve {
         hard.setOnAction(e->{
             try {
                 hard goHard = new hard();
-                goHard.Hard(primaryStage);
+                goHard.Hard(primaryStage,0,generatedMedium,5);
             }
             catch (Exception ex)
             {
