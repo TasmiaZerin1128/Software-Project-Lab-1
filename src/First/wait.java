@@ -11,38 +11,48 @@ import javafx.stage.Stage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+import java.time.temporal.Temporal;
 
-public class examSM {
-
-    public void SM (Stage primaryStage) throws FileNotFoundException {
+public class wait {
+    Thread thread = new Thread();
+    public void Wait( Stage primaryStage) throws FileNotFoundException {
         Pane root = new Pane();
+        multiplayer goMulti = new multiplayer();
 
-        Text headning = new Text("Exam");
+        Text headning = new Text("Battle with others");
         headning.setScaleX(4);
         headning.setScaleY(4);
-        headning.setTranslateX(750);
-        headning.setTranslateY(50);
+        headning.setTranslateX(720);
+        headning.setTranslateY(80);
         headning.setFill(Color.WHITE);
 
-        Text line = new Text("Show your skill, battle against others");
-        line.setScaleX(2);
-        line.setScaleY(2);
-        line.setTranslateX(680);
-        line.setTranslateY(120);
-        line.setFill(Color.WHITE);
+        Text wait = new Text();
+        wait.setFill(Color.WHITE);
+        wait.setTranslateX(700);
+        wait.setTranslateY(450);
+        wait.setScaleX(3);
+        wait.setScaleY(3);
 
-        Button Single = new Button("Single Player");
-        Single.setTranslateX(650);
-        Single.setTranslateY(280);
-        setStyle(Single);
-        Single.setPrefSize(250,80);
+        Button Start = new Button("Start");
+        Start.setTranslateX(670);
+        Start.setTranslateY(300);
+        setStyle(Start);
+        Start.setPrefSize(180,80);
 
-        Button Multi = new Button("MultiPlayer");
-        Multi.setTranslateX(650);
-        Multi.setTranslateY(450);
-        setStyle(Multi);
-        Multi.setPrefSize(250,80);
+        Start.setOnAction(e->{
+            thread = new Thread(){
+                public void run(){
+                    System.out.println("Thread Running");
+                    try {
+                        goMulti.Multi(primaryStage,1);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
+            };
+            thread.start();
+            wait.setText("Waiting for others to join....");
+        });
 
         Button back = new Button("Back");
         back.setTranslateX(50);
@@ -60,36 +70,21 @@ public class examSM {
                 "    -fx-font-size: 1.1em;");
         back.setPrefSize(60, 30);
         back.setOnAction(e->{
+            thread.suspend();
             try {
-                solve goBack = new solve();
-                goBack.start(primaryStage,0);
+                goMulti.Multi(primaryStage,0);
+                examSM goBack = new examSM();
+                goBack.SM(primaryStage);
             }catch (Exception ex)
             {
                 ex.printStackTrace();
             }
         });
 
-        Single.setOnAction(e->{
-            exam goExam = new exam();
-            try {
-                goExam.Exam(primaryStage,0);
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        });
-
-        Multi.setOnAction(e->{
-            wait goWait = new wait();
-            try {
-                goWait.Wait(primaryStage);
-            } catch (FileNotFoundException fileNotFoundException) {
-                fileNotFoundException.printStackTrace();
-            }
-        });
+        root.getChildren().addAll(Start,wait,back,headning);
 
         Scene S = new Scene(root,1600,800);
         Image background = new Image(new FileInputStream("src/Images/Back.png"));
-        root.getChildren().addAll(Single,Multi,back,headning,line);
 
         BackgroundImage bi = new BackgroundImage(background,
                 BackgroundRepeat.NO_REPEAT,

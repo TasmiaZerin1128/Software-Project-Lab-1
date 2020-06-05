@@ -15,25 +15,31 @@ import java.util.Set;
 
 public class multiplayer {
     Set<Integer> generatedQ = new LinkedHashSet<Integer>();
-    public void Multi(Stage primaryStage) throws IOException {
-        Random rng = new Random();
-        while (generatedQ.size() < 2) {
-            Integer next = rng.nextInt((7 - 1) + 1) + 1;
-            generatedQ.add(next);
-        }
-        while (generatedQ.size() < 4) {
-            Integer next = rng.nextInt((7 - 1) + 1) + 1;
-            generatedQ.add(next);
-        }
-        while (generatedQ.size() < 5) {
-            Integer next = rng.nextInt((7 - 1) + 1) + 1;
-            generatedQ.add(next);
-        }
-            Server goServer= new Server(8900,generatedQ);
+    public void Multi(Stage primaryStage, int onOff) throws IOException {
+        Server goServer = new Server();
+        if(onOff==1) {
+            Random rng = new Random();
+            while (generatedQ.size() < 2) {
+                Integer next = rng.nextInt((7 - 1) + 1) + 1;
+                generatedQ.add(next);
+            }
+            while (generatedQ.size() < 4) {
+                Integer next = rng.nextInt((7 - 1) + 1) + 1;
+                generatedQ.add(next);
+            }
+            while (generatedQ.size() < 5) {
+                Integer next = rng.nextInt((7 - 1) + 1) + 1;
+                generatedQ.add(next);
+            }
+            goServer.Server(8900, generatedQ);
             System.out.println(generatedQ);
             easy goEasy = new easy();
-            goEasy.EASY(primaryStage,1,generatedQ,5);
-
+            goEasy.EASY(primaryStage, 1, generatedQ, 5);
+        }
+        else if(onOff==0)
+        {
+            goServer.close();
+        }
 
     }
 }

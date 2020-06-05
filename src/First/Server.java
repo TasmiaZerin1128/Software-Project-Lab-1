@@ -16,8 +16,9 @@ import java.util.Set;
 public class Server {
     private Socket socket = null;
     private ServerSocket server = null;
+    DataOutputStream dOUT = null;
 
-    public Server(int port, Set<Integer> qNo) throws IOException {
+    public void Server(int port, Set<Integer> qNo) throws IOException {
 
         try {
             InetAddress localhost = InetAddress.getLocalHost();
@@ -35,15 +36,21 @@ public class Server {
         }
 
         Iterator<Integer> itr = qNo.iterator();
-        DataOutputStream dOUT = new DataOutputStream(socket.getOutputStream());
+        dOUT = new DataOutputStream(socket.getOutputStream());
+
         while (itr.hasNext()) {
             dOUT.writeInt(itr.next());
             dOUT.flush();
         }
-        System.out.println("Closing connection");
-        socket.close();
-        dOUT.close();
+    }
+
+        public void close() throws IOException {
+            System.out.println("Closing connection");
+            if(socket!=null)
+            socket.close();
+            if(dOUT!=null)
+            dOUT.close();
+        }
 
     }
-}
 
