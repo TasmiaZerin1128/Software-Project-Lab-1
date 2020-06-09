@@ -35,7 +35,7 @@ public class LeaderBoard {
         {
             Text result = new Text("1st: S - "+ marks+" points\n2nd: C - "+secP+ " points");
             root.getChildren().add(result);
-            result.setTranslateX(500);
+            result.setTranslateX(700);
             result.setTranslateY(400);
             result.setScaleX(3);
             result.setScaleY(3);
