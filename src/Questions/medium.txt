@@ -13,6 +13,8 @@ T
 1.15
 ANS
 yAxisD
+POINT
+4
 CENTER
 260
 625
@@ -37,6 +39,8 @@ T
 1.67
 ANS
 yAxisD
+POINT
+4
 CENTER
 335
 445
@@ -59,6 +63,8 @@ T
 0.97
 ANS
 yAxisD
+POINT
+4
 CENTER
 500
 700
@@ -81,6 +87,8 @@ T
 1.14
 ANS
 initialVelo
+POINT
+5
 CENTER
 200
 400
@@ -103,6 +111,8 @@ T
 1
 ANS
 Velocity
+POINT
+4
 CENTER
 200
 650
@@ -127,6 +137,8 @@ T
 ANS
 yAxisD
 xAxisD
+POINT
+5
 CENTER
 734
 465
@@ -148,6 +160,8 @@ theta
 ANS
 initialVelo
 theta
+POINT
+5
 CENTER
 260
 735

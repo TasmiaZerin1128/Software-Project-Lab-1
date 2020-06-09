@@ -3,6 +3,7 @@ package First;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -27,6 +28,7 @@ import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 import java.io.*;
@@ -111,8 +113,9 @@ public class medium {
     Label wrongV = new Label();
 
     int num;
+    int points=0,M=0;
 
-    public void Medium(Stage primaryStage,int exam, Set<Integer> numbers, int qTotal) throws FileNotFoundException, IOException {
+    public void Medium(Stage primaryStage,int exam, Set<Integer> numbers, int qTotal, int marks) throws FileNotFoundException, IOException {
         Pane root = new Pane();
 
         Stage size = new Stage();
@@ -178,6 +181,7 @@ public class medium {
         Ellipse ball = new Ellipse();
         Sphere Ball = new Sphere(25);
 
+        M=marks;
         String st;
         int line = 0;
         if(exam==0) {
@@ -251,8 +255,9 @@ public class medium {
                 }
             } else if (flag == 3) {
                 st = sc.nextLine();
-                if (st.contains("CENTER")) {
-                    flag = 4;
+                if(st.contains("POINT"))
+                {
+                    flag=4;
                 } else {
                     if (st.contains("Height")) {
                         Label H = new Label("Hmax: ");
@@ -339,8 +344,15 @@ public class medium {
                 }
             } else if (flag == 4) {
                 st = sc.nextLine();
-                if (st.contains("MUL")) {
+                if (st.contains("CENTER")) {
                     flag = 5;
+                } else {
+                    points = Integer.parseInt(st);
+                }
+            } else if(flag==5){
+                st = sc.nextLine();
+                if (st.contains("MUL")) {
+                    flag = 6;
                 } else {
                     if (yesX == 0) {
                         if (projectileType == 0) {
@@ -362,10 +374,10 @@ public class medium {
                         }
                     }
                 }
-            } else if (flag == 5) {
+            } else if (flag == 6) {
                 st = sc.nextLine();
                 if (st.contains("WALL")) {
-                    flag = 6;
+                    flag = 7;
                 } else if(st.contains("END"))
                 {
                     break;
@@ -378,7 +390,7 @@ public class medium {
                         mulY = Double.parseDouble(st);
                     }
                 }
-            } else if (flag == 6) {
+            } else if (flag == 7) {
                 st = sc.nextLine();
                 if (st.contains("END")) {
                     break;
@@ -779,6 +791,7 @@ public class medium {
                 if (check == 0) {
                     ANS.setText("Correct Answer");
                     ANS.setFill(Color.WHITE);
+                    M+=points;
                 } else if (check == 1) {
                     ANS.setText("Wrong Answer");
                     ANS.setFill(Color.RED);
@@ -809,6 +822,7 @@ public class medium {
                 rt.setOnAction(eve -> {
                     if(checkAnim==0)
                     {
+                        M-=points;
                         check = 0;
                         t = 0;
                         Hmax = -1;
@@ -1002,11 +1016,12 @@ public class medium {
         setStyle(next);
         next.setPrefSize(80, 30);
         next.setOnAction(e->{
+            System.out.println("Mark "+M);
             if(exam==0)
             {
                 easy goEasy = new easy();
                 try {
-                    goEasy.EASY(primaryStage,0,numbers,qTotal);
+                    goEasy.EASY(primaryStage,0,numbers,qTotal,M);
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
@@ -1015,7 +1030,7 @@ public class medium {
                 if(qTotal>2) {
                     medium goMedium = new medium();
                     try {
-                        goMedium.Medium(primaryStage, 1, numbers, (qTotal-1));
+                        goMedium.Medium(primaryStage, 1, numbers, (qTotal-1),M);
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }
@@ -1024,7 +1039,7 @@ public class medium {
                 {
                     hard goHard = new hard();
                     try {
-                        goHard.Hard(primaryStage, 1, numbers, (qTotal-1));
+                        goHard.Hard(primaryStage, 1, numbers, (qTotal-1),M);
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }
@@ -1059,6 +1074,58 @@ public class medium {
         });
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent e) {
+                e.consume();
+                Pane R = new Pane();
+                Text exit = new Text("Do you want to exit?");
+                exit.setScaleX(3);
+                exit.setScaleY(3);
+                exit.setTranslateX(300);
+                exit.setTranslateY(100);
+                exit.setFill(Color.WHITE);
+                Button yes = new Button("Yes");
+                setStyleE(yes);
+                yes.setTranslateX(170);
+                yes.setTranslateY(200);
+                yes.setPrefSize(150, 50);
+                Button no = new Button("No");
+                setStyleE(no);
+                no.setTranslateX(400);
+                no.setTranslateY(200);
+                no.setPrefSize(150, 50);
+                R.getChildren().addAll(exit, yes, no);
+                Scene S = new Scene(R, 700, 400);
+                Stage eStage = new Stage();
+                eStage.setScene(S);
+                Image bg = null;
+                try {
+                    bg = new Image(new FileInputStream("src/Images/exit.png"));
+                } catch (FileNotFoundException fileNotFoundException) {
+                    fileNotFoundException.printStackTrace();
+                }
+                BackgroundImage bi = new BackgroundImage(bg,
+                        BackgroundRepeat.NO_REPEAT,
+                        BackgroundRepeat.NO_REPEAT,
+                        BackgroundPosition.DEFAULT,
+                        BackgroundSize.DEFAULT);
+                Background back = new Background(bi);
+                R.setBackground(back);
+                S.setFill(Color.TRANSPARENT);
+                eStage.initStyle(StageStyle.TRANSPARENT);
+                eStage.show();
+
+                yes.setOnAction(ev -> {
+                    System.out.println("Closing");
+                    System.exit(0);
+                });
+                no.setOnAction(ev -> {
+                    eStage.close();
+                });
+            }
+        });
     }
 
     public Button setStyle(Button b) {
@@ -1134,5 +1201,18 @@ public class medium {
             cw.setPrefSize(100, 3);
         }
         return cw;
+    }
+    public Button setStyleE(Button b) {
+        b.setStyle("-fx-background-color: \n" +
+                "        linear-gradient(#f2f2f2, #d6d6d6),\n" +
+                "        linear-gradient(#fcfcfc 0%, #d9d9d9 20%, #d6d6d6 100%),\n" +
+                "        linear-gradient(#dddddd 0%, #f6f6f6 50%);\n" +
+                "    -fx-background-radius: 8,7,6;\n" +
+                "    -fx-background-insets: 0,1,2;\n" +
+                "    -fx-text-fill: black;\n" +
+                "    -fx-font-weight: bold;\n" +
+                "    -fx-font-size: 1.6em;\n" +
+                "    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );");
+        return b;
     }
 }

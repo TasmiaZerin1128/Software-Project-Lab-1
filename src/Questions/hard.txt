@@ -13,6 +13,8 @@ theta
 45
 ANS
 TargetVelo
+POINT
+6
 CENTER
 365
 700
@@ -42,6 +44,8 @@ T
 7.08
 ANS
 theta
+POINT
+7
 CENTER
 265
 550
@@ -72,6 +76,8 @@ T
 3
 ANS
 Y/N
+POINT
+7
 CENTER
 370
 460
@@ -102,6 +108,8 @@ T
 3
 ANS
 Y/N
+POINT
+7
 CENTER
 300
 470
@@ -137,6 +145,8 @@ time
 4.10
 ANS
 One/Two
+POINT
+6
 CENTER
 440
 320
@@ -167,6 +177,8 @@ time
 2.50
 ANS
 One/Two
+POINT
+6
 CENTER
 668
 335
@@ -196,6 +208,8 @@ T
 3
 ANS
 Y/N
+POINT
+6
 CENTER
 530
 495

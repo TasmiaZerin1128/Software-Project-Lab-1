@@ -1,5 +1,6 @@
 package First;
 
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
@@ -17,8 +18,9 @@ public class Server {
     private Socket socket = null;
     private ServerSocket server = null;
     DataOutputStream dOUT = null;
+    DataInputStream dIn = null;
 
-    public void Server(int port, Set<Integer> qNo) throws IOException {
+    public void Server(int port) throws IOException {
 
         try {
             InetAddress localhost = InetAddress.getLocalHost();
@@ -34,15 +36,26 @@ public class Server {
         } catch (IOException i) {
             System.out.println(i);
         }
-
-        Iterator<Integer> itr = qNo.iterator();
-        dOUT = new DataOutputStream(socket.getOutputStream());
-
-        while (itr.hasNext()) {
-            dOUT.writeInt(itr.next());
-            dOUT.flush();
-        }
     }
+
+        public void passQ(Set<Integer> qNo) throws IOException {
+            Iterator<Integer> itr = qNo.iterator();
+            dOUT = new DataOutputStream(socket.getOutputStream());
+
+            while (itr.hasNext()) {
+                dOUT.writeInt(itr.next());
+                dOUT.flush();
+            }
+        }
+
+        public int passM(int marks) throws IOException {
+            dOUT = new DataOutputStream(socket.getOutputStream());
+            dOUT.writeInt(marks);
+            dOUT.flush();
+            dIn = new DataInputStream(socket.getInputStream());
+            int M = dIn.readInt();
+            return M;
+        }
 
         public void close() throws IOException {
             System.out.println("Closing connection");
@@ -50,6 +63,10 @@ public class Server {
             socket.close();
             if(dOUT!=null)
             dOUT.close();
+            if(dIn!=null)
+                dIn.close();
+            if(server!=null)
+             server.close();
         }
 
     }

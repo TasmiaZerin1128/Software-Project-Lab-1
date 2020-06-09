@@ -1,5 +1,9 @@
 package First;
 
+import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -7,17 +11,26 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.temporal.Temporal;
+import java.util.LinkedHashSet;
+import java.util.Random;
+import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class wait {
-    Thread thread = new Thread();
+    Set<Integer> generatedQ = new LinkedHashSet<Integer>();
+    Server nServer = new Server();
     public void Wait( Stage primaryStage) throws FileNotFoundException {
         Pane root = new Pane();
         multiplayer goMulti = new multiplayer();
+        Server goServer  = new Server();
 
         Text headning = new Text("Battle with others");
         headning.setScaleX(4);
@@ -39,19 +52,44 @@ public class wait {
         setStyle(Start);
         Start.setPrefSize(180,80);
 
+        Random rng = new Random();
+        while (generatedQ.size() < 2) {
+            Integer next = rng.nextInt((7 - 1) + 1) + 1;
+            generatedQ.add(next);
+        }
+        while (generatedQ.size() < 4) {
+            Integer next = rng.nextInt((7 - 1) + 1) + 1;
+            generatedQ.add(next);
+        }
+        while (generatedQ.size() < 5) {
+            Integer next = rng.nextInt((7 - 1) + 1) + 1;
+            generatedQ.add(next);
+        }
+
+//        Task task = new Task<Void>() {
+//            @Override public Void call() {
+//                try {
+//                    goMulti.Multi(primaryStage, 1);
+//                    //goServer.Server(8900,generatedQ);
+//                } catch (IOException ioException) {
+//                    ioException.printStackTrace();
+//                }
+//                return null;
+//            }
+//        };
+//
+//        Thread thread = new Thread(task);
+
+
         Start.setOnAction(e->{
-            thread = new Thread(){
-                public void run(){
-                    System.out.println("Thread Running");
-                    try {
-                        goMulti.Multi(primaryStage,1);
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
-                }
-            };
-            thread.start();
-            wait.setText("Waiting for others to join....");
+            //thread.setDaemon(true);
+            //thread.start();
+            try {
+                goMulti.Multi(primaryStage, 1,nServer);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+            wait.setText("Waiting for otherssss");
         });
 
         Button back = new Button("Back");
@@ -70,9 +108,8 @@ public class wait {
                 "    -fx-font-size: 1.1em;");
         back.setPrefSize(60, 30);
         back.setOnAction(e->{
-            thread.suspend();
             try {
-                goMulti.Multi(primaryStage,0);
+                goMulti.Multi(primaryStage,0,nServer);
                 examSM goBack = new examSM();
                 goBack.SM(primaryStage);
             }catch (Exception ex)
@@ -96,7 +133,60 @@ public class wait {
 
         primaryStage.setScene(S);
         primaryStage.show();
+
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent e) {
+                e.consume();
+                Pane R = new Pane();
+                Text exit = new Text("Do you want to exit?");
+                exit.setScaleX(3);
+                exit.setScaleY(3);
+                exit.setTranslateX(300);
+                exit.setTranslateY(100);
+                exit.setFill(Color.WHITE);
+                Button yes = new Button("Yes");
+                setStyleE(yes);
+                yes.setTranslateX(170);
+                yes.setTranslateY(200);
+                yes.setPrefSize(150, 50);
+                Button no = new Button("No");
+                setStyleE(no);
+                no.setTranslateX(400);
+                no.setTranslateY(200);
+                no.setPrefSize(150, 50);
+                R.getChildren().addAll(exit, yes, no);
+                Scene S = new Scene(R, 700, 400);
+                Stage eStage = new Stage();
+                eStage.setScene(S);
+                Image bg = null;
+                try {
+                    bg = new Image(new FileInputStream("src/Images/exit.png"));
+                } catch (FileNotFoundException fileNotFoundException) {
+                    fileNotFoundException.printStackTrace();
+                }
+                BackgroundImage bi = new BackgroundImage(bg,
+                        BackgroundRepeat.NO_REPEAT,
+                        BackgroundRepeat.NO_REPEAT,
+                        BackgroundPosition.DEFAULT,
+                        BackgroundSize.DEFAULT);
+                Background back = new Background(bi);
+                R.setBackground(back);
+                S.setFill(Color.TRANSPARENT);
+                eStage.initStyle(StageStyle.TRANSPARENT);
+                eStage.show();
+
+                yes.setOnAction(ev -> {
+                    System.out.println("Closing");
+                    System.exit(0);
+                });
+                no.setOnAction(ev -> {
+                    eStage.close();
+                });
+            }
+        });
     }
+
     public Button setStyle(Button b) {
         b.setStyle("-fx-padding: 8 15 15 15;\n" +
                 "    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;\n" +
@@ -110,5 +200,21 @@ public class wait {
                 "    -fx-font-weight: bold;\n" +
                 "    -fx-font-size: 1.8em;");
         return b;
+    }
+    public Button setStyleE(Button b) {
+        b.setStyle("-fx-background-color: \n" +
+                "        linear-gradient(#f2f2f2, #d6d6d6),\n" +
+                "        linear-gradient(#fcfcfc 0%, #d9d9d9 20%, #d6d6d6 100%),\n" +
+                "        linear-gradient(#dddddd 0%, #f6f6f6 50%);\n" +
+                "    -fx-background-radius: 8,7,6;\n" +
+                "    -fx-background-insets: 0,1,2;\n" +
+                "    -fx-text-fill: black;\n" +
+                "    -fx-font-weight: bold;\n" +
+                "    -fx-font-size: 1.6em;\n" +
+                "    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );");
+        return b;
+    }
+    public  Server sendServer(){
+        return nServer;
     }
 }
