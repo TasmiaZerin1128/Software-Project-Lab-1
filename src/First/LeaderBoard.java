@@ -31,8 +31,28 @@ public class LeaderBoard {
         nServer.close();
 
         System.out.println("1: "+ marks + " 2: "+ secP);
+        if(marks>secP)
+        {
+            Text result = new Text("1st: S - "+ marks+" points\n2nd: C - "+secP+ " points");
+            root.getChildren().add(result);
+            result.setTranslateX(500);
+            result.setTranslateY(400);
+            result.setScaleX(3);
+            result.setScaleY(3);
+            result.setFill(Color.WHITE);
+        }
+        else
+        {
+            Text result = new Text("1st: C - "+ secP+" points\n2nd: S - "+marks+ " points");
+            root.getChildren().add(result);
+            result.setTranslateX(700);
+            result.setTranslateY(400);
+            result.setScaleX(3);
+            result.setScaleY(3);
+            result.setFill(Color.WHITE);
+        }
 
-        root.getChildren().add(end);
+        root.getChildren().addAll(end);
         Scene S = new Scene(root,1600,800);
         Image background = new Image(new FileInputStream("src/Images/Back.png"));
 
