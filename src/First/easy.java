@@ -2,10 +2,12 @@ package First;
 
 import com.sun.source.doctree.TextTree;
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -31,6 +33,7 @@ import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 
 import java.io.*;
 import java.util.*;
@@ -89,8 +92,11 @@ public class easy {
     Label wrongTmax = new Label();
 
     int points=0,M=0;
+    int minute,second,timeup=0,quesTotal;
+    Label timerL,sub;
+    Timeline timeline;
 
-    public void EASY(Stage primaryStage, int exam, Set<Integer> numbers, int qTotal, int marks) throws FileNotFoundException, IOException {
+    public void EASY(Stage primaryStage, int exam, Set<Integer> numbers, int qTotal, int marks, int min, int sec) throws FileNotFoundException, IOException {
         Pane root = new Pane();
 
         Stage size = new Stage();
@@ -98,6 +104,9 @@ public class easy {
         Scene s = new Scene(ans, 500, 300);
 
         Alert a = new Alert(Alert.AlertType.NONE);
+        minute=min;
+        second=sec;
+        quesTotal = qTotal;
 
         Scanner sc = new Scanner(new File("src/Questions/easy.txt"));
         int flag = 0,type=0, var=0;
@@ -121,6 +130,7 @@ public class easy {
         Image qB = new Image(new FileInputStream("src/Images/Bd.jpg"));
         Image notice = new Image(new FileInputStream("src/Images/notice.png"));
         gc.drawImage(qB,150,20);
+        if(exam==0)
         gc.drawImage(notice,990,200);
         Text ANS = new Text();
         ANS.setTranslateX(1275);
@@ -171,7 +181,6 @@ public class easy {
             System.out.println(num);
             numbers.remove(num);
         }
-        //num= 3;
         ArrayList<String> ques = new ArrayList<String>();
         while (sc.hasNextLine()) {
             if (flag == 0) {
@@ -314,6 +323,10 @@ public class easy {
         PhongMaterial material = new PhongMaterial();
         material.setDiffuseMap(new Image(getClass().getResourceAsStream(TypeB)));
         ball.setMaterial(material);
+
+        timerL = new Label("Remaining Time: " + String.format("%02d", minute) + ":" + String.format("%02d",second));
+        setCorrectWrong(timerL, 700, 300, Color.MAROON, 2, 2);
+        timerL.setPrefSize(150,10);
 
         Text L = new Text();
         L.setTranslateX(550);
@@ -479,134 +492,192 @@ public class easy {
                         a.setContentText("You have to first answer the questions");
                         a.show();
                     } else {
+                        if (exam == 1) {
+                            sub = new Label("Your answer has been submitted. Please go to next page");
+                            setCorrectWrong(sub, 670, 400, Color.BLACK, 2.5, 2.5);
+                            sub.setPrefSize(320, 30);
+                            sub.setAlignment(Pos.CENTER);
+                            en.setVisible(false);
+                            St.setVisible(false);
+                            root.getChildren().add(sub);
+                        }
+                        else if(exam==2)
+                        {
+                            sub = new Label("Your answer has been submitted");
+                            setCorrectWrong(sub, 670, 400, Color.BLACK, 2.5, 2.5);
+                            sub.setPrefSize(320, 30);
+                            sub.setAlignment(Pos.CENTER);
+                            en.setVisible(false);
+                            St.setVisible(false);
+                            root.getChildren().add(sub);
+                        }
                         if (Hmax != -1) {
                             if (RoundUpDecimal.round(H, Hmax)) {
+                                M += 1;
                                 check = 0;
                             } else {
                                 check = 1;
                                 pointAns[point] = new Circle(6);
-                                setPoint(pointAns[point],200 + (Range*3), 650 - (Hmax*4.5),Color.MAROON);
+                                setPoint(pointAns[point], 200 + (Range * 3), 650 - (Hmax * 4.5), Color.MAROON);
                                 pointAns[point].setVisible(false);
-                                setCorrectWrong(wrongH,pointAns[point].getTranslateX(),pointAns[point].getTranslateY()-60,Color.MAROON,1.5,1.5);
+                                setCorrectWrong(wrongH, pointAns[point].getTranslateX(), pointAns[point].getTranslateY() - 60, Color.MAROON, 1.5, 1.5);
                                 wrongH.setVisible(false);
-                                root.getChildren().addAll(pointAns[point],wrongH);
+                                root.getChildren().addAll(pointAns[point], wrongH);
                                 point++;
                                 pointAns[point] = new Circle(6);
-                                setPoint(pointAns[point],200 + (R*3), 650- (H*4.5), Color.DARKGREEN);
+                                setPoint(pointAns[point], 200 + (R * 3), 650 - (H * 4.5), Color.DARKGREEN);
                                 pointAns[point].setVisible(false);
-                                setCorrectWrong(rightH,pointAns[point].getTranslateX(),pointAns[point].getTranslateY()-60,Color.DARKGREEN,1.5,1.5);
+                                setCorrectWrong(rightH, pointAns[point].getTranslateX(), pointAns[point].getTranslateY() - 60, Color.DARKGREEN, 1.5, 1.5);
                                 rightH.setVisible(false);
-                                root.getChildren().addAll(pointAns[point],rightH);
+                                root.getChildren().addAll(pointAns[point], rightH);
                                 point++;
-                                mulY = (mulY*Hmax)/H;
+                                mulY = (mulY * Hmax) / H;
                             }
                         }
-                            if (time != -1) {
-                                if (RoundUpDecimal.round(time, T / 2)) {
-                                    if (check == 0) {
-                                        check = 0;
-                                    }
-                                } else {
-                                    check = 1;
-                                    if(time>(T/2))
-                                    {
-                                        wrongTime.setText("Given time to reach Maximum Height is greater than the actual time!");
-                                    } else{
-                                        wrongTime.setText("Given time to reach Maximum Height is less than the actual time!");
-                                    }
-                                    setCorrectWrong(wrongTime,1100,530+space,Color.MAROON,1.1,1.1);
-                                    wrongTime.setPrefSize(400,10);
-                                    wrongTime.setVisible(false);
-                                    space+=50;
-                                    root.getChildren().add(wrongTime);
-                                }
-                            }
-                        if (Tmax != -1) {
-                            if (RoundUpDecimal.round(Tmax, T)) {
+                        if (time != -1) {
+                            if (RoundUpDecimal.round(time, T / 2)) {
+                                M += 1;
                                 if (check == 0) {
                                     check = 0;
                                 }
                             } else {
                                 check = 1;
-                                if(Tmax>T)
-                                {
+                                if (time > (T / 2)) {
+                                    wrongTime.setText("Given time to reach Maximum Height is greater than the actual time!");
+                                } else {
+                                    wrongTime.setText("Given time to reach Maximum Height is less than the actual time!");
+                                }
+                                setCorrectWrong(wrongTime, 1100, 530 + space, Color.MAROON, 1.1, 1.1);
+                                wrongTime.setPrefSize(400, 10);
+                                wrongTime.setVisible(false);
+                                space += 50;
+                                root.getChildren().add(wrongTime);
+                            }
+                        }
+                        if (Tmax != -1) {
+                            if (RoundUpDecimal.round(Tmax, T)) {
+                                M += 1;
+                                if (check == 0) {
+                                    check = 0;
+                                }
+                            } else {
+                                check = 1;
+                                if (Tmax > T) {
                                     wrongTmax.setText("Given time to reach the ground is greater than the actual time!");
-                                } else{
+                                } else {
                                     wrongTmax.setText("Given time to reach the ground is less than the actual time!");
                                 }
-                                setCorrectWrong(wrongTmax,1100,530+space,Color.MAROON,1.1,1.1);
-                                wrongTmax.setPrefSize(360,10);
+                                setCorrectWrong(wrongTmax, 1100, 530 + space, Color.MAROON, 1.1, 1.1);
+                                wrongTmax.setPrefSize(360, 10);
                                 wrongTmax.setVisible(false);
-                                space+=50;
+                                space += 50;
                                 root.getChildren().add(wrongTmax);
                             }
                         }
-                            if (Range != -1) {
-                                if (RoundUpDecimal.round(R, Range)) {
-                                    if (check == 0) {
-                                        check = 0;
-                                    }
-                                } else {
-                                    check = 1;
-                                    pointAns[point] = new Circle(6);
-                                    setPoint(pointAns[point],200 + (Range*6), 650,Color.MAROON);
-                                    pointAns[point].setVisible(false);
-                                    setCorrectWrong(wrongR,pointAns[point].getTranslateX(),650 + 20,Color.MAROON,1.5,1.5);
-                                    wrongR.setVisible(false);
-                                    root.getChildren().addAll(pointAns[point],wrongR);
-                                    point++;
-                                    pointAns[point] = new Circle(6);
-                                    setPoint(pointAns[point],200 + (R*6), 650, Color.DARKGREEN);
-                                    pointAns[point].setVisible(false);
-                                    setCorrectWrong(rightR,pointAns[point].getTranslateX(),650+20,Color.DARKGREEN,1.5,1.5);
-                                    rightR.setVisible(false);
-                                    root.getChildren().addAll(pointAns[point],rightR);
-                                    point++;
-                                    mulX = (mulX*Range)/R;
+                        if (Range != -1) {
+
+                            if (RoundUpDecimal.round(R, Range)) {
+                                M += 1;
+                                if (check == 0) {
+                                    check = 0;
                                 }
+                            } else {
+                                check = 1;
+                                pointAns[point] = new Circle(6);
+                                setPoint(pointAns[point], 200 + (Range * 6), 650, Color.MAROON);
+                                pointAns[point].setVisible(false);
+                                setCorrectWrong(wrongR, pointAns[point].getTranslateX(), 650 + 20, Color.MAROON, 1.5, 1.5);
+                                wrongR.setVisible(false);
+                                root.getChildren().addAll(pointAns[point], wrongR);
+                                point++;
+                                pointAns[point] = new Circle(6);
+                                setPoint(pointAns[point], 200 + (R * 6), 650, Color.DARKGREEN);
+                                pointAns[point].setVisible(false);
+                                setCorrectWrong(rightR, pointAns[point].getTranslateX(), 650 + 20, Color.DARKGREEN, 1.5, 1.5);
+                                rightR.setVisible(false);
+                                root.getChildren().addAll(pointAns[point], rightR);
+                                point++;
+                                mulX = (mulX * Range) / R;
                             }
-                            if (Theta != -1) {
-                                System.out.println(Theta);
-                                if (RoundUpDecimal.round(theta, Theta)) {
-                                    if (check == 0) {
-                                        check = 0;
-                                    }
-                                } else {
-                                    check = 1;
-                                    rightA = new Line(200,450,200,650);
-                                    rightA.setStroke(Color.DARKGREEN);
-                                    rightA.setStrokeWidth(4);
-                                    wrongA = new Line(200,450,200,650);
-                                    wrongA.setStroke(Color.MAROON);
-                                    wrongA.setStrokeWidth(4);
-                                    Rotate rotateR = new Rotate();
-                                    rotateR.setAngle(90-theta);
-                                    System.out.println(theta+" " +Theta);
-                                    Rotate rotateW = new Rotate();
-                                    rotateW.setAngle(90-Theta);
-                                    rotateR.setPivotX(ball.getTranslateX());
-                                    rotateR.setPivotY(ball.getTranslateY());
-                                    rotateW.setPivotX(ball.getTranslateX());
-                                    rotateW.setPivotY(ball.getTranslateY());
-                                    rightA.getTransforms().add(rotateR);
-                                    wrongA.getTransforms().add(rotateW);
-                                    setCorrectWrong(rightAng,rightA.getStartX()+(Math.tan((90-theta)*(Math.PI/180))*200),rightA.getStartY()-30,Color.DARKGREEN,1.5,1.5);
-                                    setCorrectWrong(wrongAng,wrongA.getStartX()+(Math.tan((90-Theta)*(Math.PI/180))*200),(450+(200/Math.cos((90-Theta)*(Math.PI/180)))-200),Color.MAROON,1.5,1.5);
-                                    rightA.setVisible(false);
-                                    wrongA.setVisible(false);
-                                    rightAng.setVisible(false);
-                                    wrongAng.setVisible(false);
-                                    root.getChildren().addAll(rightA,wrongA,rightAng,wrongAng);
+                        }
+                        if (Theta != -1) {
+
+                            if (RoundUpDecimal.round(theta, Theta)) {
+                                M += 2;
+                                if (check == 0) {
+                                    check = 0;
                                 }
+                            } else {
+                                check = 1;
+                                rightA = new Line(200, 450, 200, 650);
+                                rightA.setStroke(Color.DARKGREEN);
+                                rightA.setStrokeWidth(4);
+                                wrongA = new Line(200, 450, 200, 650);
+                                wrongA.setStroke(Color.MAROON);
+                                wrongA.setStrokeWidth(4);
+                                Rotate rotateR = new Rotate();
+                                rotateR.setAngle(90 - theta);
+                                System.out.println(theta + " " + Theta);
+                                Rotate rotateW = new Rotate();
+                                rotateW.setAngle(90 - Theta);
+                                rotateR.setPivotX(ball.getTranslateX());
+                                rotateR.setPivotY(ball.getTranslateY());
+                                rotateW.setPivotX(ball.getTranslateX());
+                                rotateW.setPivotY(ball.getTranslateY());
+                                rightA.getTransforms().add(rotateR);
+                                wrongA.getTransforms().add(rotateW);
+                                setCorrectWrong(rightAng, rightA.getStartX() + (Math.tan((90 - theta) * (Math.PI / 180)) * 200), rightA.getStartY() - 30, Color.DARKGREEN, 1.5, 1.5);
+                                setCorrectWrong(wrongAng, wrongA.getStartX() + (Math.tan((90 - Theta) * (Math.PI / 180)) * 200), (450 + (200 / Math.cos((90 - Theta) * (Math.PI / 180))) - 200), Color.MAROON, 1.5, 1.5);
+                                rightA.setVisible(false);
+                                wrongA.setVisible(false);
+                                rightAng.setVisible(false);
+                                wrongAng.setVisible(false);
+                                root.getChildren().addAll(rightA, wrongA, rightAng, wrongAng);
                             }
+                        }
                         if (check == 0) {
                             ANS.setText("Correct Answer");
                             ANS.setFill(Color.WHITE);
-                            M+=points;
                         } else if (check == 1) {
                             ANS.setText("Wrong Answer");
                             ANS.setFill(Color.RED);
                         }
+                    }
+                    });
+
+
+                        if(exam==1|| exam==2) {
+                            timeline = new Timeline();
+                            timeline.setCycleCount(Timeline.INDEFINITE);
+                            timeline.getKeyFrames().add(
+                                    new KeyFrame(Duration.seconds(1),
+                                            new EventHandler() {
+                                                @Override
+                                                public void handle(Event event) {
+                                                    second--;
+                                                    if (second < 0) {
+                                                        minute--;
+                                                        second = 59;
+                                                    }
+                                                    timerL.setText("Remaining Time: " + String.format("%02d", minute) + ":" + String.format("%02d", second));
+                                                    if (minute <= 0 && second <= 0) {
+                                                        timeline.stop();
+                                                        timeup = 1;
+                                                        sub = new Label("Time's Up!");
+                                                        setCorrectWrong(sub, 740, 400, Color.BLACK, 2.5, 2.5);
+                                                        sub.setTextFill(Color.RED);
+                                                        sub.setPrefSize(100, 30);
+                                                        sub.setPadding(new Insets(10));
+                                                        sub.setAlignment(Pos.CENTER);
+                                                        en.setVisible(false);
+                                                        St.setVisible(false);
+                                                        root.getChildren().add(sub);
+                                                    }
+                                                }
+                                            }));
+                            timeline.playFromStart();
+                        }
+
                         ss.setVisible(true);
                         rt.setVisible(true);
                         vs.setVisible(true);
@@ -632,7 +703,6 @@ public class easy {
                         });
                         rt.setOnAction(eve -> {
                             if(checkAnim==0) {
-                                M-=points;
                                 mulX = 6;
                                 mulY = 4.5;
                                 check = 0;
@@ -758,8 +828,6 @@ public class easy {
                                 il.printStackTrace();
                             }
                         });
-                    }
-                });
 
         Button back = new Button("Back");
         back.setTranslateX(50);
@@ -770,8 +838,8 @@ public class easy {
         if(exam==0) {
             back.setOnAction(e -> {
                 try {
-                    solve goBack = new solve();
-                    goBack.start(primaryStage, 0);
+                    practice goBack = Object.getPractice();
+                    goBack.start(primaryStage);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -799,34 +867,64 @@ public class easy {
             {
                 easy goEasy = new easy();
                 try {
-                    goEasy.EASY(primaryStage,0,numbers,qTotal,M);
+                    goEasy.EASY(primaryStage,0,numbers,qTotal,M,min,sec);
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
-            } else
+            } else if(exam==1)
             {
-                if(qTotal>4) {
-                    easy goEasy = new easy();
-                    try {
-                        goEasy.EASY(primaryStage, 1, numbers, (qTotal-1),M);
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
-                }
-                else
+                if(timeup==1)
                 {
-                    medium goMedium = new medium();
+                    MultiScore goMult = Object.getMulti();
+                    goMult.setFinalMarks(M);
+                    LeaderBoard goLB = new LeaderBoard();
                     try {
-                        goMedium.Medium(primaryStage, 1, numbers, (qTotal-1),M);
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
+                        goLB.Board(primaryStage,M);
+                    } catch (IOException fileNotFoundException) {
+                        fileNotFoundException.printStackTrace();
                     }
                 }
+                else {
+                    MultiScore goMult = Object.getMulti();
+                    goMult.Score(M-marks);
+                    if (qTotal > 4) {
+                        easy goEasy = new easy();
+                        try {
+                            goEasy.EASY(primaryStage, 1, numbers, (qTotal - 1), M, minute, second);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    } else {
+                        medium goMedium = new medium();
+                        try {
+                            goMedium.Medium(primaryStage, 1, numbers, (qTotal - 1), M,minute,second);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                        quesTotal--;
+                        SingleScore scr = Object.getSscore();
+                        scr.StoreScore(M,points,num,minute,second);
+                        System.out.println(numbers);
+                        SingleQues sq = Object.getSq();
+                        try {
+                            sq.GiveQues(primaryStage, numbers, quesTotal, M, minute, second);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
             }
         });
 
         Image background = new Image(new FileInputStream(TypeF));
-        root.getChildren().addAll(cn,back, shadow,St,next,L,ball,en,ANS,ss,rt,vs);
+        root.getChildren().addAll(cn,back, shadow,St,next,L,ball,en);
+        if(exam==0)
+        root.getChildren().addAll(ANS,ss,rt,vs);
+        else
+            root.getChildren().add(timerL);
 
         BackgroundImage bi = new BackgroundImage(background,
                 BackgroundRepeat.NO_REPEAT,
@@ -881,7 +979,7 @@ public class easy {
                 Background back = new Background(bi);
                 R.setBackground(back);
                 S.setFill(Color.TRANSPARENT);
-                eStage.initStyle(StageStyle.TRANSPARENT);
+                eStage.initStyle(TRANSPARENT);
                 eStage.show();
 
                 yes.setOnAction(ev -> {
@@ -960,6 +1058,10 @@ public class easy {
                     "-fx-border-color: white;\n" +
                     "-fx-background-radius: 50px;\n" +
                     "-fx-border-radius: 50px;");
+        }
+        else  {
+            cw.setStyle("-fx-background-color:BLACK;\n" +
+                    "-fx-border-color: SANDYBROWN;");
         }
         cw.setPadding(new Insets(9));
         cw.setPrefSize(100,3);

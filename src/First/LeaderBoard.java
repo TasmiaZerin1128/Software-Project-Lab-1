@@ -3,6 +3,8 @@ package First;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -25,32 +27,51 @@ public class LeaderBoard {
         end.setScaleX(4);
         end.setScaleY(4);
 
+        final ToggleGroup group = new ToggleGroup();
+
+        RadioButton score = new RadioButton("Leaderboard");
+        score.setToggleGroup(group);
+        score.setTranslateX(620);
+        score.setTranslateY(100);
+        score.setScaleX(2.5);
+        score.setScaleY(2.5);
+        score.setTextFill(Color.WHITE);
+
+        RadioButton performance = new RadioButton("Performance");
+        performance.setToggleGroup(group);
+        performance.setTranslateX(850);
+        performance.setTranslateY(100);
+        performance.setScaleX(2.5);
+        performance.setScaleY(2.5);
+        performance.setTextFill(Color.WHITE);
+        performance.setSelected(true);
+        
         Server nServer = new Server();
         nServer.Server(9000);
-        int secP = nServer.passM(marks);
-        nServer.close();
+        //int secP = nServer.passM(marks);
+        //nServer.close();
 
-        System.out.println("1: "+ marks + " 2: "+ secP);
-        if(marks>secP)
-        {
-            Text result = new Text("1st: S - "+ marks+" points\n2nd: C - "+secP+ " points");
-            root.getChildren().add(result);
-            result.setTranslateX(700);
-            result.setTranslateY(400);
-            result.setScaleX(3);
-            result.setScaleY(3);
-            result.setFill(Color.WHITE);
-        }
-        else
-        {
-            Text result = new Text("1st: C - "+ secP+" points\n2nd: S - "+marks+ " points");
-            root.getChildren().add(result);
-            result.setTranslateX(700);
-            result.setTranslateY(400);
-            result.setScaleX(3);
-            result.setScaleY(3);
-            result.setFill(Color.WHITE);
-        }
+//        System.out.println("1: "+ marks + " 2: "+ secP);
+//        if(marks>secP)
+//        {
+//            Text result = new Text("1st: S - "+ marks+" points\n2nd: C - "+secP+ " points");
+//            root.getChildren().add(result);
+//            result.setTranslateX(700);
+//            result.setTranslateY(400);
+//            result.setScaleX(3);
+//            result.setScaleY(3);
+//            result.setFill(Color.WHITE);
+//        }
+//        else
+//        {
+//            Text result = new Text("1st: C - "+ secP+" points\n2nd: S - "+marks+ " points");
+//            root.getChildren().add(result);
+//            result.setTranslateX(700);
+//            result.setTranslateY(400);
+//            result.setScaleX(3);
+//            result.setScaleY(3);
+//            result.setFill(Color.WHITE);
+//        }
 
         root.getChildren().addAll(end);
         Scene S = new Scene(root,1600,800);

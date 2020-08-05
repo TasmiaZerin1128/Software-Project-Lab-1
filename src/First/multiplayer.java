@@ -37,10 +37,10 @@ public class multiplayer {
             }
             nServer.Server(8900);
             nServer.passQ(generatedQ);
-            nServer.close();
+            //nServer.close();
             System.out.println(generatedQ);
             easy goEasy = new easy();
-            goEasy.EASY(primaryStage, 1, generatedQ, 5,0);
+            goEasy.EASY(primaryStage, 1, generatedQ, 5,0,1,00);
 
             primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 @Override
@@ -93,10 +93,6 @@ public class multiplayer {
                     });
                 }
             });
-        }
-        else if(onOff==0)
-        {
-            nServer.close();
         }
 
     }

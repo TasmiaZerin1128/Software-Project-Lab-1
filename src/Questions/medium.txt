@@ -73,30 +73,6 @@ MUL
 8
 END
 4)
-In a football field, a football crosses 17 m before hitting the ground. If initially the ball is
-thrown from 1.5 m above the ground with 16 degree angle, determine its initial velocity.
-#
-FFootball
-sphere
-VAR
-v
-15.51
-theta
-16
-T
-1.14
-ANS
-initialVelo
-POINT
-5
-CENTER
-200
-400
-MUL
-30
-60
-END
-5)
 A football is kicked with a velocity of 30 m/s making an angle of 30 degree with the ground.
 What will be the velocity of it after 1 second?
 #
@@ -119,6 +95,30 @@ CENTER
 MUL
 10
 10
+END
+5)
+In a football field, a football crosses 17 m before hitting the ground. If initially the ball is
+thrown from 1.5 m above the ground with 16 degree angle, determine its initial velocity.
+#
+FFootball
+sphere
+VAR
+v
+15.51
+theta
+16
+T
+1.14
+ANS
+initialVelo
+POINT
+5
+CENTER
+200
+400
+MUL
+30
+60
 END
 6)
 A tank fires a bullet from tank gun horizontally with a velocity of 980m/s. It reaches

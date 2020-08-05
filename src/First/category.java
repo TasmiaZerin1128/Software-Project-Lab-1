@@ -1047,8 +1047,8 @@ public class category {
 
         back.setOnAction(e->{
             try {
-                solve goBack = new solve();
-                goBack.start(primaryStage,1);
+                practice goBack = Object.getPractice();
+                goBack.start(primaryStage);
             }catch (Exception ex)
             {
                 ex.printStackTrace();

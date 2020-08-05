@@ -3,6 +3,7 @@ package First;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -114,8 +115,11 @@ public class medium {
 
     int num;
     int points=0,M=0;
+    int minute,second,quesTotal,timeup=0;
+    Label timerL,sub;
+    Timeline timeline;
 
-    public void Medium(Stage primaryStage,int exam, Set<Integer> numbers, int qTotal, int marks) throws FileNotFoundException, IOException {
+    public void Medium(Stage primaryStage,int exam, Set<Integer> numbers, int qTotal, int marks,int min, int sec) throws FileNotFoundException, IOException {
         Pane root = new Pane();
 
         Stage size = new Stage();
@@ -127,6 +131,9 @@ public class medium {
         Scanner sc = new Scanner(new File("src/Questions/medium.txt"));
         int flag = 0, type = 0, var = 0;
         int position = 0;
+        minute=min;
+        second=sec;
+        quesTotal = qTotal;
 
         hh.setPromptText("0.00");
         hh.setFocusTraversable(false);
@@ -408,10 +415,15 @@ public class medium {
         Image qB = new Image(new FileInputStream("src/Images/BdMed.jpg"));
         Image notice = new Image(new FileInputStream("src/Images/notice.png"));
         gc.drawImage(qB,270,20);
+        if(exam==0)
         gc.drawImage(notice,1120,5);
 
         mulXtemp=mulX;
         mulYtemp=mulY;
+
+        timerL = new Label("Remaining Time: " + String.format("%02d", minute) + ":" + String.format("%02d",second));
+        setCorrectWrong(timerL, 700, 300, Color.MAROON, 2, 2);
+        timerL.setPrefSize(150,10);
 
         Text L = new Text();
         L.setTranslateX(480);
@@ -611,6 +623,25 @@ public class medium {
                 a.show();
             }
             else {
+                if (exam == 1) {
+                    sub = new Label("Your answer has been submitted. Please go to next page");
+                    setCorrectWrong(sub, 670, 400, Color.BLACK, 2.5, 2.5);
+                    sub.setPrefSize(320, 30);
+                    sub.setAlignment(Pos.CENTER);
+                    en.setVisible(false);
+                    St.setVisible(false);
+                    root.getChildren().add(sub);
+                }
+                else if(exam==2)
+                {
+                    sub = new Label("Your answer has been submitted");
+                    setCorrectWrong(sub, 670, 400, Color.BLACK, 2.5, 2.5);
+                    sub.setPrefSize(320, 30);
+                    sub.setAlignment(Pos.CENTER);
+                    en.setVisible(false);
+                    St.setVisible(false);
+                    root.getChildren().add(sub);
+                }
                     if (Hmax != -1) {
                         if (RoundUpDecimal.round(H,Hmax)) {
                                 check = 0;
@@ -796,6 +827,7 @@ public class medium {
                     ANS.setText("Wrong Answer");
                     ANS.setFill(Color.RED);
                 }
+
                 ss.setVisible(true);
                 rt.setVisible(true);
                 vs.setVisible(true);
@@ -983,6 +1015,38 @@ public class medium {
             }
         });
 
+        if(exam==1|| exam==2) {
+            timeline = new Timeline();
+            timeline.setCycleCount(Timeline.INDEFINITE);
+            timeline.getKeyFrames().add(
+                    new KeyFrame(Duration.seconds(1),
+                            new EventHandler() {
+                                @Override
+                                public void handle(Event event) {
+                                    second--;
+                                    if (second < 0) {
+                                        minute--;
+                                        second = 59;
+                                    }
+                                    timerL.setText("Remaining Time: " + String.format("%02d", minute) + ":" + String.format("%02d", second));
+                                    if (minute <= 0 && second <= 0) {
+                                        timeline.stop();
+                                        timeup = 1;
+                                        sub = new Label("Time's Up!");
+                                        setCorrectWrong(sub, 740, 400, Color.BLACK, 2.5, 2.5);
+                                        sub.setTextFill(Color.RED);
+                                        sub.setPrefSize(100, 30);
+                                        sub.setPadding(new Insets(10));
+                                        sub.setAlignment(Pos.CENTER);
+                                        en.setVisible(false);
+                                        St.setVisible(false);
+                                        root.getChildren().add(sub);
+                                    }
+                                }
+                            }));
+            timeline.playFromStart();
+        }
+
         Button back = new Button("Back");
         back.setTranslateX(50);
         back.setTranslateY(730);
@@ -993,7 +1057,7 @@ public class medium {
             back.setOnAction(e -> {
                 try {
                     solve goBack = new solve();
-                    goBack.start(primaryStage, 0);
+                    goBack.start(primaryStage);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -1015,46 +1079,70 @@ public class medium {
         next.setTranslateY(730);
         setStyle(next);
         next.setPrefSize(80, 30);
-        next.setOnAction(e->{
-            System.out.println("Mark "+M);
-            if(exam==0)
-            {
+        next.setOnAction(e-> {
+            System.out.println("Mark " + M);
+            if (exam == 0) {
                 easy goEasy = new easy();
                 try {
-                    goEasy.EASY(primaryStage,0,numbers,qTotal,M);
+                    goEasy.EASY(primaryStage, 0, numbers, qTotal, M, 5, 00);
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
-            } else
-            {
-                if(qTotal>2) {
-                    medium goMedium = new medium();
+            } else if (exam == 1) {
+                if (timeup == 1) {
+                    MultiScore goMult = Object.getMulti();
+                    goMult.setFinalMarks(M);
+                    LeaderBoard goLB = new LeaderBoard();
                     try {
-                        goMedium.Medium(primaryStage, 1, numbers, (qTotal-1),M);
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
+                        goLB.Board(primaryStage, M);
+                    } catch (IOException fileNotFoundException) {
+                        fileNotFoundException.printStackTrace();
+                    }
+                } else {
+                    MultiScore goMult = Object.getMulti();
+                    goMult.Score(M - marks);
+                    if (qTotal > 2) {
+                        medium goMedium = new medium();
+                        try {
+                            goMedium.Medium(primaryStage, 1, numbers, (qTotal - 1), M, minute, second);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    } else {
+                        hard goHard = new hard();
+                        try {
+                            goHard.Hard(primaryStage, 1, numbers, (qTotal - 1), M, minute, second);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
                     }
                 }
-                else
-                {
-                    hard goHard = new hard();
-                    try {
-                        goHard.Hard(primaryStage, 1, numbers, (qTotal-1),M);
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
+            }
+            else
+            {
+                quesTotal--;
+                System.out.println(numbers);
+                SingleQues sq = Object.getSq();
+                try {
+                    sq.GiveQues(primaryStage,numbers,quesTotal,M,minute,second);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
                 }
             }
         });
 
         Image background = new Image(new FileInputStream(Type));
-        root.getChildren().addAll(cn,back,next,St,L,en,ANS,ss,rt,vs);
+        root.getChildren().addAll(cn,back,next,St,L,en);
         if (projectileType == 0) {
             root.getChildren().add(ball);
         } else
         {
             root.getChildren().add(Ball);
         }
+        if(exam==0)
+            root.getChildren().addAll(ANS,ss,rt,vs);
+        else
+            root.getChildren().add(timerL);
 
         BackgroundImage bi = new BackgroundImage(background,
                 BackgroundRepeat.NO_REPEAT,
@@ -1193,6 +1281,10 @@ public class medium {
                     "-fx-border-color: white;\n" +
                     "-fx-background-radius: 50px;\n" +
                     "-fx-border-radius: 50px;");
+        }
+        else  {
+            cw.setStyle("-fx-background-color:BLACK;\n" +
+                    "-fx-border-color: SANDYBROWN;");
         }
         cw.setPadding(new Insets(9));
         if (cw == wrongX || cw == rightX) {

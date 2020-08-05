@@ -8,6 +8,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -44,6 +45,22 @@ public class secondPage {
         setStyle(momentum);
         momentum.setPrefSize(200, 80);
 
+        Image backButton = new Image(new FileInputStream("src/Images/backButton.png"));
+        ImageView playB = new ImageView(backButton);
+
+        Button BtBack = new Button(null,playB);
+        BtBack.setBackground(null);
+        BtBack.setTranslateX(50);
+        BtBack.setTranslateY(20);
+
+        Image proj = new Image(new FileInputStream("src/Images/proj.png"));
+        ImageView projB = new ImageView(proj);
+
+        Button BtProj = new Button(null,projB);
+        BtProj.setBackground(null);
+        BtProj.setTranslateX(500);
+        BtProj.setTranslateY(200);
+
         Button back = new Button("Back");
         back.setTranslateX(50);
         back.setTranslateY(20);
@@ -62,7 +79,7 @@ public class secondPage {
 
         Image background = new Image(new FileInputStream("src/Images/Back.png"));
         Pane root = new Pane();
-        root.getChildren().addAll(momentum,back,pro,headning);
+        root.getChildren().addAll(momentum,pro,headning,back);
 
         pro.setOnAction(e -> {
             try {

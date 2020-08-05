@@ -4,6 +4,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -14,7 +15,6 @@ import javafx.stage.WindowEvent;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 public class examSM {
 
@@ -35,37 +35,33 @@ public class examSM {
         line.setTranslateY(120);
         line.setFill(Color.WHITE);
 
-        Button Single = new Button("Single Player");
-        Single.setTranslateX(650);
-        Single.setTranslateY(280);
-        setStyle(Single);
-        Single.setPrefSize(250,80);
+        Image Sg = new Image(new FileInputStream("src/Images/single.png"));
+        ImageView sin = new ImageView(Sg);
 
-        Button Multi = new Button("MultiPlayer");
-        Multi.setTranslateX(650);
+        Button Single = new Button(null,sin);
+        Single.setBackground(null);
+        Single.setTranslateX(500);
+        Single.setTranslateY(160);
+
+        Image M = new Image(new FileInputStream("src/Images/multi.png"));
+        ImageView mul = new ImageView(M);
+
+        Button Multi = new Button(null,mul);
+        Multi.setBackground(null);
+        Multi.setTranslateX(280);
         Multi.setTranslateY(450);
-        setStyle(Multi);
-        Multi.setPrefSize(250,80);
 
-        Button back = new Button("Back");
+        Image Back = new Image(new FileInputStream("src/Images/backButton.png"));
+        ImageView bb = new ImageView(Back);
+
+        Button back = new Button(null,bb);
+        back.setBackground(null);
         back.setTranslateX(50);
         back.setTranslateY(20);
-        back.setStyle("-fx-padding: 8 15 15 15;\n" +
-                "    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;\n" +
-                "    -fx-background-radius: 8;\n" +
-                "    -fx-background-color: \n" +
-                "        linear-gradient(from 0% 93% to 0% 100%, #8d9092 0%, #717375 100%),\n" +
-                "        #8d9092,\n" +
-                "        #717375,\n" +
-                "        radial-gradient(center 50% 50%, radius 100%, #ffffff, #a1a3a6);\n" +
-                "    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );\n" +
-                "    -fx-font-weight: bold;\n" +
-                "    -fx-font-size: 1.1em;");
-        back.setPrefSize(60, 30);
         back.setOnAction(e->{
             try {
                 solve goBack = new solve();
-                goBack.start(primaryStage,0);
+                goBack.start(primaryStage);
             }catch (Exception ex)
             {
                 ex.printStackTrace();
@@ -73,25 +69,27 @@ public class examSM {
         });
 
         Single.setOnAction(e->{
-            exam goExam = new exam();
+            single goSingle = new single();
             try {
-                goExam.Exam(primaryStage,0);
+                goSingle.Single(primaryStage,0);
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
         });
 
         Multi.setOnAction(e->{
+            MultiScore mult = new MultiScore();
+            Object.setMulti(mult);
             wait goWait = new wait();
             try {
                 goWait.Wait(primaryStage);
-            } catch (FileNotFoundException fileNotFoundException) {
+            } catch (IOException fileNotFoundException) {
                 fileNotFoundException.printStackTrace();
             }
         });
 
         Scene S = new Scene(root,1600,800);
-        Image background = new Image(new FileInputStream("src/Images/Back.png"));
+        Image background = new Image(new FileInputStream("src/Images/bgAllnew.png"));
         root.getChildren().addAll(Single,Multi,back,headning,line);
 
         BackgroundImage bi = new BackgroundImage(background,

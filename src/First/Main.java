@@ -41,19 +41,35 @@ public class Main extends Application {
                 "    -fx-font-weight: bold;\n" +
                 "    -fx-font-size: 2.1em;");
         Start.setPrefSize(150, 100);
-        Image background = new Image(new FileInputStream("src/Images/bg.jpg"));
+
+        Image play = new Image(new FileInputStream("src/Images/play.png"));
+        ImageView playB = new ImageView(play);
+
+        Button BtPlay = new Button(null,playB);
+        BtPlay.setBackground(null);
+        BtPlay.setTranslateX(1100);
+        BtPlay.setTranslateY(280);
+
+        Image PlayG = new Image(new FileInputStream("src/Images/play2.gif"));
+        ImageView plg = new ImageView(PlayG);
+        plg.setX(1050);
+        plg.setY(400);
+        plg.setPreserveRatio(true);
+
+        Image background = new Image(new FileInputStream("src/Images/bgnew.png"));
         Image gif = new Image(new FileInputStream("src/Images/fusics.gif"));
         ImageView iv = new ImageView(gif);
-        iv.setX(270);
-        iv.setY(-200);
-        iv.setFitHeight(3000);
-        iv.setFitWidth(1200);
+        iv.setX(730);
+        iv.setY(-250);
+        iv.setFitHeight(2000);
+        iv.setFitWidth(1000);
         iv.setPreserveRatio(true);
         Canvas canvas = new Canvas(1600, 900);
         Group root = new Group();
-        root.getChildren().addAll(canvas, Start, iv);
+        root.getChildren().addAll(canvas, BtPlay, iv,plg);
 
-        Start.setOnAction(e -> {
+
+        BtPlay.setOnAction(e -> {
             try {
                 secondPage SP = new secondPage();
                 SP.TheSecond(primaryStage);
@@ -61,6 +77,11 @@ public class Main extends Application {
                 excep.printStackTrace();
             }
         });
+
+        SingleQues sques = new SingleQues();
+        Object.setSq(sques);
+        practice goPrac = new practice();
+        Object.setPractice(goPrac);
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.drawImage(background, 0, 0);

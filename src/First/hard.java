@@ -1,6 +1,9 @@
 package First;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,6 +23,7 @@ import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -125,8 +129,11 @@ public class hard {
     Image TargetF;
 
     int num,points,M=0;
+    int minute,second,quesTotal,timeup=0;
+    Label timerL,sub;
+    Timeline timeline;
 
-    public void Hard(Stage primaryStage, int exam, Set<Integer> numbers, int qTotal, int marks) throws FileNotFoundException, IOException {
+    public void Hard(Stage primaryStage, int exam, Set<Integer> numbers, int qTotal, int marks, int min, int sec) throws FileNotFoundException, IOException {
         Pane root = new Pane();
 
         Stage size = new Stage();
@@ -138,6 +145,10 @@ public class hard {
         Scanner sc = new Scanner(new File("src/Questions/hard.txt"));
         int flag = 0, type = 0, var = 0;
         int position = 0;
+        minute=min;
+        second=sec;
+        quesTotal = qTotal;
+        M=marks;
 
         hh.setPromptText("0.00");
         hh.setFocusTraversable(false);
@@ -541,10 +552,15 @@ public class hard {
         TypeF = "src/Images/" + Type;
         TypeL = "src/Images/L" + Type;
         Image notice = new Image(new FileInputStream("src/Images/noticeHard.png"));
+        if(exam==0)
         gc.drawImage(notice,1200,5);
 
         mulXtemp=mulX;
         mulYtemp=mulY;
+
+        timerL = new Label("Remaining Time: " + String.format("%02d", minute) + ":" + String.format("%02d",second));
+        setCorrectWrong(timerL, 700, 300, Color.MAROON, 2, 2);
+        timerL.setPrefSize(150,10);
 
         if(tarX!=0) {
             Target = new Image(new FileInputStream(TypeTar));
@@ -777,6 +793,25 @@ public class hard {
                 a.setContentText("You have to first answer the questions");
                 a.show();
             } else {
+                if (exam == 1) {
+                    sub = new Label("Your answer has been submitted. Please go to next page");
+                    setCorrectWrong(sub, 670, 400, Color.BLACK, 2.5, 2.5);
+                    sub.setPrefSize(320, 30);
+                    sub.setAlignment(Pos.CENTER);
+                    en.setVisible(false);
+                    St.setVisible(false);
+                    root.getChildren().add(sub);
+                }
+                else if(exam==2)
+                {
+                    sub = new Label("Your answer has been submitted");
+                    setCorrectWrong(sub, 670, 400, Color.BLACK, 2.5, 2.5);
+                    sub.setPrefSize(320, 30);
+                    sub.setAlignment(Pos.CENTER);
+                    en.setVisible(false);
+                    St.setVisible(false);
+                    root.getChildren().add(sub);
+                }
                 if (Hmax != -1) {
                     if (RoundUpDecimal.round(H, Hmax)) {
                         check = 0;
@@ -1201,6 +1236,38 @@ public class hard {
                     });
                 }
         });
+
+        if(exam==1|| exam==2) {
+            timeline = new Timeline();
+            timeline.setCycleCount(Timeline.INDEFINITE);
+            timeline.getKeyFrames().add(
+                    new KeyFrame(Duration.seconds(1),
+                            new EventHandler() {
+                                @Override
+                                public void handle(Event event) {
+                                    second--;
+                                    if (second < 0) {
+                                        minute--;
+                                        second = 59;
+                                    }
+                                    timerL.setText("Remaining Time: " + String.format("%02d", minute) + ":" + String.format("%02d", second));
+                                    if (minute <= 0 && second <= 0) {
+                                        timeline.stop();
+                                        timeup = 1;
+                                        sub = new Label("Time's Up!");
+                                        setCorrectWrong(sub, 740, 400, Color.BLACK, 2.5, 2.5);
+                                        sub.setTextFill(Color.RED);
+                                        sub.setPrefSize(100, 30);
+                                        sub.setPadding(new Insets(10));
+                                        sub.setAlignment(Pos.CENTER);
+                                        en.setVisible(false);
+                                        St.setVisible(false);
+                                        root.getChildren().add(sub);
+                                    }
+                                }
+                            }));
+            timeline.playFromStart();
+        }
         
         Button back = new Button("Back");
         back.setTranslateX(50);
@@ -1220,8 +1287,8 @@ public class hard {
 
         back.setOnAction(e -> {
             try {
-                solve goBack = new solve();
-                goBack.start(primaryStage,0);
+                practice goBack = Object.getPractice();
+                goBack.start(primaryStage);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -1237,36 +1304,64 @@ public class hard {
             {
                 easy goEasy = new easy();
                 try {
-                    goEasy.EASY(primaryStage,0,numbers,qTotal,M);
+                    goEasy.EASY(primaryStage,0,numbers,qTotal,M,5,00);
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
-            } else
-            {
-                if(qTotal>1) {
-                    hard goHard = new hard();
-                    try {
-                        goHard.Hard(primaryStage, 1, numbers, (qTotal-1),M);
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
-                }
-                else
-                {
-                    System.out.println("The End");
+            } else if(exam==1) {
+                if (timeup == 1) {
+                    MultiScore goMult = Object.getMulti();
+                    goMult.setFinalMarks(M);
                     LeaderBoard goLB = new LeaderBoard();
                     try {
-                        goLB.Board(primaryStage,M);
+                        goLB.Board(primaryStage, M);
                     } catch (IOException fileNotFoundException) {
                         fileNotFoundException.printStackTrace();
                     }
+                } else {
+                    MultiScore goMult = Object.getMulti();
+                    goMult.Score(M - marks);
+                    if (qTotal > 1) {
+                        hard goHard = new hard();
+                        try {
+                            goHard.Hard(primaryStage, 1, numbers, (qTotal - 1), M, minute, second);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    } else {
+                        System.out.println("The End");
+                        MultiScore goMulti = Object.getMulti();
+                        goMulti.setFinalMarks(M);
+                        goMult.sendP();
+                        LeaderBoard goLB = new LeaderBoard();
+                        try {
+                            goLB.Board(primaryStage, M);
+                        } catch (IOException fileNotFoundException) {
+                            fileNotFoundException.printStackTrace();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                quesTotal--;
+                System.out.println(numbers);
+                SingleQues sq = Object.getSq();
+                try {
+                    sq.GiveQues(primaryStage,numbers,quesTotal,M,minute,second);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
                 }
             }
         });
 
 
         Image background = new Image(new FileInputStream(TypeF));
-        root.getChildren().addAll(cn, back,next, shadow, St, L, en,ANS,ss,rt,vs);
+        root.getChildren().addAll(cn, back,next, shadow, St, L, en);
+        if(exam==0)
+            root.getChildren().addAll(ANS,ss,rt,vs);
+        else
+            root.getChildren().add(timerL);
         if (projectileType == 0) {
             if(objNum==1)
             root.getChildren().add(ball);
@@ -1417,6 +1512,10 @@ public class hard {
                     "-fx-border-color: white;\n" +
                     "-fx-background-radius: 50px;\n" +
                     "-fx-border-radius: 50px;");
+        }
+        else  {
+            cw.setStyle("-fx-background-color:BLACK;\n" +
+                    "-fx-border-color: SANDYBROWN;");
         }
         cw.setPadding(new Insets(9));
         if (cw == wrongX || cw == rightX) {

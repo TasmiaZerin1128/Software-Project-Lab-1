@@ -14,36 +14,61 @@ import javafx.stage.WindowEvent;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.LinkedHashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
-public class exam {
+public class single {
 
-    Set<Integer> generatedEasy = new LinkedHashSet<Integer>();
-    Set<Integer> generatedMedium = new LinkedHashSet<Integer>();
+    Set<?>[] questionSet = new Set<?>[5];
 
-    public void Exam(Stage primaryStage, int point) throws IOException {
+
+    public void Single(Stage primaryStage, int point) throws IOException {
 
         Random rng = new Random();
-        while (generatedEasy.size() < 6)
-        {
-            Integer next = rng.nextInt((6 - 1) + 1) + 1;
-            generatedEasy.add(next);
+        for (int i = 0; i < questionSet.length; ++i) {
+            questionSet[i] = new LinkedHashSet<Integer>();
         }
-        System.out.println(generatedEasy);
+        while (questionSet[0].size() < 4)
+        {
+            Integer next = rng.nextInt((4 - 1) + 1) + 1;
+            ((Set<Integer>)questionSet[0]).add(next);
+        }
 
-//        while (generatedMedium.size() < 7)
-//        {
-//            Integer next = rng.nextInt(6) + 1;
-//            generatedMedium.add(next);
-//        }
+        System.out.println(questionSet[0]);
 
-//        if(point<10)
-//        {
-//            easy goEasy = new easy();
-//            goEasy.EASY(primaryStage,1,2);
-//        }
+        while (questionSet[1].size() < 3)
+        {
+            Integer next = rng.nextInt((7-5)+1) + 5;
+            ((Set<Integer>)questionSet[1]).add(next);
+        }
+        System.out.println(questionSet[1]);
+
+        while (questionSet[2].size() < 4)
+        {
+            Integer next = rng.nextInt((4 - 1) + 1) + 1;
+            ((Set<Integer>)questionSet[2]).add(next);
+        }
+
+        System.out.println(questionSet[2]);
+
+        while (questionSet[3].size() < 3)
+        {
+            Integer next = rng.nextInt((7-5)+1) + 5;
+            ((Set<Integer>)questionSet[3]).add(next);
+        }
+        System.out.println(questionSet[3]);
+
+        while (questionSet[4].size() < 7)
+        {
+            Integer next = rng.nextInt((7-1)+1) + 1;
+            ((Set<Integer>)questionSet[4]).add(next);
+        }
+        System.out.println(questionSet[4]);
+
+        SingleQues goQues = Object.getSq();
+        goQues.QuesPass(primaryStage,questionSet,0);
+
+//        easy goEasy = new easy();
+//        goEasy.EASY(primaryStage,2, (Set<Integer>) questionSet[1],0,0,5,0);
 
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
