@@ -3,6 +3,7 @@ package First;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -17,15 +18,18 @@ public class MultiScore {
     public void setName(String name)
     {
         N = name;
-        System.out.println(N);
+        System.out.println("Name set: "+N);
     }
     public void setFinalMarks(int marks)
     {
         TotalM = marks;
     }
-    public void sendP()
+    public void sendP() throws IOException {
+        wait W = Object.getWait();
+        W.sendMarks(TotalM,N);
+    }
+    public ArrayList sendInd()
     {
-        Pair<Integer,String> p = new Pair<>(TotalM,N);
-        System.out.println(p.getKey()+" Name: "+p.getValue()+" "+ N);
+        return marksInd;
     }
 }

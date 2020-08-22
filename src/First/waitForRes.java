@@ -2,11 +2,8 @@ package First;
 
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -16,76 +13,13 @@ import javafx.stage.WindowEvent;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
-public class solve {
-    public void start(Stage primaryStage) throws FileNotFoundException {
+public class waitForRes {
+    public void Result(Stage primaryStage) throws FileNotFoundException {
         Pane root = new Pane();
+        Scene S = new Scene(root, 1600, 800);
+        Image background = new Image(new FileInputStream("src/Images/wait.png"));
 
-        Text headning = new Text("Solve");
-        headning.setScaleX(5);
-        headning.setScaleY(5);
-        headning.setTranslateX(740);
-        headning.setTranslateY(60);
-        headning.setFill(Color.WHITE);
-
-        Image prac = new Image(new FileInputStream("src/Images/practice.png"));
-        ImageView Pr = new ImageView(prac);
-
-        Button Practice = new Button(null,Pr);
-        Practice.setBackground(null);
-        Practice.setTranslateX(310);
-        Practice.setTranslateY(130);
-
-        Image exam = new Image(new FileInputStream("src/Images/exam.png"));
-        ImageView Ex = new ImageView(exam);
-
-        Button Exam = new Button(null,Ex);
-        Exam.setBackground(null);
-        Exam.setTranslateX(790);
-        Exam.setTranslateY(130);
-
-        Canvas canvas = new Canvas(1600,800);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-
-        Image danda = new Image(new FileInputStream("src/Images/solveDanda.png"));
-        gc.drawImage(danda,740,150);
-
-        Exam.setOnAction(e->{
-            examSM goExamSM = new examSM();
-            try {
-                goExamSM.SM(primaryStage);
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        });
-
-        Practice.setOnAction(e->{
-            practice goPrac = Object.getPractice();
-            try {
-                goPrac.start(primaryStage);
-            } catch (FileNotFoundException fileNotFoundException) {
-                fileNotFoundException.printStackTrace();
-            }
-        });
-
-        Image Back = new Image(new FileInputStream("src/Images/backButton.png"));
-        ImageView bb = new ImageView(Back);
-
-        Button back = new Button(null,bb);
-        back.setBackground(null);
-        back.setTranslateX(50);
-        back.setTranslateY(20);
-        back.setOnAction(e->{
-            ThirdPage goBack = new ThirdPage();
-            try {
-                goBack.TheThird(primaryStage);
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
-        });
-
-        Image background = new Image(new FileInputStream("src/Images/bgAllnew.png"));
         BackgroundImage bi = new BackgroundImage(background,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
@@ -94,11 +28,7 @@ public class solve {
         Background bg = new Background(bi);
         root.setBackground(bg);
 
-        root.getChildren().addAll(canvas,Practice,Exam,headning,back);
-
-
-        Scene scene = new Scene(root, 1600, 800);
-        primaryStage.setScene(scene);
+        primaryStage.setScene(S);
         primaryStage.show();
 
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -166,5 +96,4 @@ public class solve {
                 "    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );");
         return b;
     }
-
 }

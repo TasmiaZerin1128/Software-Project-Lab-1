@@ -147,28 +147,6 @@ public class practice {
         ang.setTextFill(null);
         setAction(ang,primaryStage);
 
-//        Text exam = new Text("Done Solving? Let's take an Exam");
-//        exam.setTranslateX(700);
-//        exam.setTranslateY(730);
-//        exam.setScaleX(2);
-//        exam.setScaleY(2);
-//        exam.setFill(Color.WHITE);
-//        Image exa = new Image(new FileInputStream("src/Images/arrow.png"));
-//        Button Exam = new Button();
-//        Exam.setGraphic(new ImageView(exa));
-//        Exam.setTranslateX(970);
-//        Exam.setTranslateY(700);
-//        Exam.setPrefSize(30,5);
-//        setStyle(Exam);
-//        Exam.setOnAction(e->{
-//            examSM goExamSM = new examSM();
-//            try {
-//                goExamSM.SM(primaryStage);
-//            } catch (IOException ioException) {
-//                ioException.printStackTrace();
-//            }
-//        });
-
         Image Back = new Image(new FileInputStream("src/Images/backButton.png"));
         ImageView bb = new ImageView(Back);
 

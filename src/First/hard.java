@@ -1311,12 +1311,12 @@ public class hard {
             } else if(exam==1) {
                 if (timeup == 1) {
                     MultiScore goMult = Object.getMulti();
+                    goMult.Score(M-marks);
                     goMult.setFinalMarks(M);
-                    LeaderBoard goLB = new LeaderBoard();
                     try {
-                        goLB.Board(primaryStage, M);
-                    } catch (IOException fileNotFoundException) {
-                        fileNotFoundException.printStackTrace();
+                        goMult.sendP();
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
                     }
                 } else {
                     MultiScore goMult = Object.getMulti();
@@ -1332,12 +1332,10 @@ public class hard {
                         System.out.println("The End");
                         MultiScore goMulti = Object.getMulti();
                         goMulti.setFinalMarks(M);
-                        goMult.sendP();
-                        LeaderBoard goLB = new LeaderBoard();
                         try {
-                            goLB.Board(primaryStage, M);
-                        } catch (IOException fileNotFoundException) {
-                            fileNotFoundException.printStackTrace();
+                            goMult.sendP();
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
                         }
                     }
                 }

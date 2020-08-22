@@ -5,6 +5,7 @@ public  class Object {
     static SingleScore Sscore;
     static practice Practice;
     static MultiScore MS;
+    static wait W;
     public static void setSq(SingleQues single)
     {
         sq = single;
@@ -29,5 +30,7 @@ public  class Object {
     }
     public static void setMulti(MultiScore mul) { MS = mul; }
     public static MultiScore getMulti() { return MS; }
+    public static void setWait(wait w){ W = w;}
+    public static wait getWait(){ return W;}
 
 }

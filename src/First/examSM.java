@@ -81,6 +81,7 @@ public class examSM {
             MultiScore mult = new MultiScore();
             Object.setMulti(mult);
             wait goWait = new wait();
+            Object.setWait(goWait);
             try {
                 goWait.Wait(primaryStage);
             } catch (IOException fileNotFoundException) {

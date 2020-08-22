@@ -4,11 +4,10 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -17,17 +16,11 @@ import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
 import java.io.*;
-import java.net.InetAddress;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.time.temporal.Temporal;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Random;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class wait {
     Set<Integer> generatedQ = new LinkedHashSet<Integer>();
@@ -37,18 +30,16 @@ public class wait {
     Text Pt[] = new Text[10];
     int p=0;
     int position = 0;
-
-//    public Socket socket[] = new Socket[5];
-//    private ServerSocket server = null;
-//    DataOutputStream dOUT = null;
-//    DataInputStream dIn = null;
-//    public int intLastSocket = 0;
+    int playerNum=0;
+    pair marks[] = new pair[10];
 
     public Socket socket = null;
     DataInputStream dIn = null;
     DataOutputStream dOut = null;
+    Stage pS;
 
     public void Wait(Stage primaryStage) throws IOException {
+        pS = primaryStage;
         Pane root = new Pane();
         multiplayer goMulti = new multiplayer();
         Server goServer = new Server();
@@ -70,16 +61,17 @@ public class wait {
         Text code = new Text("Game code is 8900");
         code.setFill(Color.WHITE);
         code.setTranslateX(730);
-        code.setTranslateY(150);
+        code.setTranslateY(170);
         code.setScaleX(3);
         code.setScaleY(3);
 
-        Button Start = new Button("Start");
-        Start.setTranslateX(670);
-        Start.setTranslateY(700);
-        setStyle(Start);
-        Start.setPrefSize(180, 80);
+        Image Strt = new Image(new FileInputStream("src/Images/start.png"));
+        ImageView st = new ImageView(Strt);
 
+        Button Start = new Button(null,st);
+        Start.setBackground(null);
+        Start.setTranslateX(570);
+        Start.setTranslateY(650);
 
         Random rng = new Random();
         while (generatedQ.size() < 2) {
@@ -98,63 +90,33 @@ public class wait {
         Task task1 = new Task<Void>() {
             @Override
             public Void call() {
-                    //nServer.Server(8900);
-//                    try {
-//                        InetAddress localhost = InetAddress.getLocalHost();
-//                        System.out.println(localhost);
-//                        server = new ServerSocket(8900);
-//                        System.out.println("Server started");
-//                        System.out.println("Waiting for a client ...");
-//
-//                        while (true) {
-//                            try {
-//                                socket[intLastSocket] = server.accept();
-//                                System.out.println("Client accepted");
-//                                dIn = new DataInputStream(socket[intLastSocket].getInputStream());
-//                                String pl = dIn.readUTF();
-//                                dOUT = new DataOutputStream(socket[intLastSocket].getOutputStream());
-//                                dOUT.writeUTF(Player[0]);
-//                                int i=intLastSocket;
-//                                System.out.println(i);
-//                                while(i>=0) // send the new player name to all player
-//                                {
-//                                    dOUT = new DataOutputStream(socket[i].getOutputStream());
-//                                    dOUT.writeUTF(pl);
-//                                    System.out.println("Sent "+pl);
-//                                    i--;
-//                                }
-//                                Player[p]=pl;
-//                                Pt[p]= new Text(Player[p]);
-//                                position+=50;
-//                                addPlayer(Pt[p],position);
-//                                Platform.runLater(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//                                        root.getChildren().add(Pt[p-1]);
-//                                    }
-//                                });
-//                                p++;
-//                                intLastSocket++;
-//                            } catch (Exception e) {
-//                                socket[intLastSocket].close();
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                    } catch (IOException i) {
-//                        System.out.println(i);
-//                    }
                 try {
                     socket = new Socket("127.0.0.1", 8900);
                     System.out.println("Connected");
                     dOut = new DataOutputStream(socket.getOutputStream());
                     dOut.writeUTF(Player[0]);
+                    dOut.writeInt(playerNum);
                     dIn = new DataInputStream(socket.getInputStream());
                     while(true) {
                         String pl = dIn.readUTF();
-                        System.out.println(pl);
+                        System.out.println("Player " + pl);
                         if(pl.equals("0"))
                         {
                             break;
+                        }
+                        else
+                        {
+                            Player[p]=pl;
+                            Pt[p]= new Text(Player[p]);
+                            position+=50;
+                            addPlayer(Pt[p],position);
+                            Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    root.getChildren().add(Pt[p-1]);
+                                }
+                            });
+                            p++;
                         }
                     }
                 } catch (UnknownHostException u) {
@@ -167,12 +129,12 @@ public class wait {
         };
         Thread t = new Thread(task1);
         t.setDaemon(true);
-        t.start();
 
         Start.setOnAction(e -> {
             try {
                 dOut = new DataOutputStream(socket.getOutputStream());
                 dOut.writeUTF("100");
+                System.out.println("done");
 
                 generatedQ.clear();
                 dIn = new DataInputStream(socket.getInputStream());
@@ -183,9 +145,11 @@ public class wait {
                 }
 
                 System.out.println(generatedQ);
+                socket.close();
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
+            t.setDaemon(false);
             easy goEasy = new easy();
             try {
                 goEasy.EASY(primaryStage, 1, generatedQ, 5, 0, 1, 0);
@@ -195,31 +159,51 @@ public class wait {
         });
 
         Pane Rr = new Pane();
-        Text name = new Text("Enter your name");
-        name.setTranslateX(300);
-        name.setTranslateY(100);
-        name.setFill(Color.WHITE);
+        Text name = new Text("Name:");
+        name.setTranslateX(270);
+        name.setTranslateY(210);
+        name.setFill(Color.BLACK);
         name.setScaleX(2);
         name.setScaleY(2);
         TextField Nam = new TextField();
-        Nam.setAlignment(Pos.CENTER);
-        Nam.setTranslateX(280);
-        Nam.setTranslateY(200);
-        Nam.setScaleX(1.5);
-        Nam.setScaleY(1.5);
+        Nam.setAlignment(Pos.CENTER_LEFT);
+        Nam.setTranslateX(370);
+        Nam.setTranslateY(195);
+        Nam.setScaleX(1.4);
+        Nam.setScaleY(1.4);
+        Nam.setStyle("-fx-border-color: white;\n" +
+                "-fx-background-insets: 0, 0 0 1 0 ;\n" +
+                " -fx-background-radius: 0 ;\n" +
+                " -fx-background-color: transparent;");
         Button enter = new Button("Enter");
-        enter.setTranslateX(300);
-        enter.setTranslateY(300);
+        enter.setTranslateX(580);
+        enter.setTranslateY(310);
         setStyleE(enter);
-        enter.setPrefSize(100,20);
+        enter.setPrefSize(80,20);
 
-        Rr.getChildren().addAll(name,Nam,enter);
+        ChoiceBox cb = new ChoiceBox();
+        cb.getItems().addAll("2","3","4","5","6","7","8","9","10");
+        cb.setTranslateX(430);
+        cb.setTranslateY(268);
+        cb.setPrefSize(60,30);
+        cb.setScaleX(1.5);
+        cb.setScaleY(1.5);
+        cb.setStyle("-fx-background-color: #ffffff;\n"+
+                "-fx-text-fill: white");
+        Text nmpl = new Text("Player Number:");
+        nmpl.setTranslateX(290);
+        nmpl.setTranslateY(285);
+        nmpl.setFill(Color.BLACK);
+        nmpl.setScaleX(2);
+        nmpl.setScaleY(2);
+
+        Rr.getChildren().addAll(name,Nam,enter,cb,nmpl);
         Scene Ss = new Scene(Rr, 700, 400);
         Stage eeStage = new Stage();
         eeStage.setScene(Ss);
         Image bgg = null;
         try {
-            bgg = new Image(new FileInputStream("src/Images/exit.png"));
+            bgg = new Image(new FileInputStream("src/Images/signin.png"));
         } catch (FileNotFoundException fileNotFoundException) {
             fileNotFoundException.printStackTrace();
         }
@@ -237,7 +221,7 @@ public class wait {
         {
             Player[p] = new String();
             Player[p] = Nam.getText();
-            if(!(Player[p].isEmpty()))
+            if(!(Player[p].isEmpty()) && !((cb.getSelectionModel().getSelectedItem()) ==null) )
             {
                 MultiScore goM = new MultiScore();
                 goM.setName(Player[p]);
@@ -246,14 +230,18 @@ public class wait {
                 addPlayer(Pt[p],position);
                 root.getChildren().add(Pt[p]);
                 p++;
+                String playerNumS = (String) cb.getSelectionModel().getSelectedItem();
+                playerNum = Integer.parseInt(playerNumS);
+                System.out.println(playerNum);
+                t.start();
                 eeStage.close();
             }
             else
             {
-                Text alert = new Text("Please enter a name");
+                Text alert = new Text("Please enter the required fields");
                 alert.setFill(Color.RED);
                 alert.setTranslateX(300);
-                alert.setTranslateY(280);
+                alert.setTranslateY(320);
                 alert.setScaleX(1.4);
                 alert.setScaleY(1.4);
                 Rr.getChildren().addAll(alert);
@@ -261,21 +249,13 @@ public class wait {
         });
 
 
-        Button back = new Button("Back");
+        Image Back = new Image(new FileInputStream("src/Images/backButton.png"));
+        ImageView bb = new ImageView(Back);
+
+        Button back = new Button(null,bb);
+        back.setBackground(null);
         back.setTranslateX(50);
         back.setTranslateY(20);
-        back.setStyle("-fx-padding: 8 15 15 15;\n" +
-                "    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;\n" +
-                "    -fx-background-radius: 8;\n" +
-                "    -fx-background-color: \n" +
-                "        linear-gradient(from 0% 93% to 0% 100%, #8d9092 0%, #717375 100%),\n" +
-                "        #8d9092,\n" +
-                "        #717375,\n" +
-                "        radial-gradient(center 50% 50%, radius 100%, #ffffff, #a1a3a6);\n" +
-                "    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );\n" +
-                "    -fx-font-weight: bold;\n" +
-                "    -fx-font-size: 1.1em;");
-        back.setPrefSize(60, 30);
         back.setOnAction(e -> {
             try {
                 goMulti.Multi(primaryStage, 0, nServer);
@@ -289,7 +269,7 @@ public class wait {
         root.getChildren().addAll(Start, code, back, headning, wait);
 
         Scene S = new Scene(root, 1600, 800);
-        Image background = new Image(new FileInputStream("src/Images/Back.png"));
+        Image background = new Image(new FileInputStream("src/Images/bgSolve.png"));
 
         BackgroundImage bi = new BackgroundImage(background,
                 BackgroundRepeat.NO_REPEAT,
@@ -391,7 +371,78 @@ public class wait {
         player.setTranslateY(200+pos);
         player.setScaleX(2);
         player.setScaleY(2);
-        player.setFill(Color.WHITE);
+        player.setFill(Color.DARKBLUE);
         return player;
+    }
+
+    public void sendMarks(int mr,String nm) throws IOException {
+
+        Task task = new Task<Void>() {
+            @Override
+            public Void call() {
+                System.out.println("Name: "+nm+" Marks: "+mr);
+                try {
+                    socket = new Socket("127.0.0.1", 8900);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("Connected");
+                try {
+                    dOut = new DataOutputStream(socket.getOutputStream());
+                    dOut.writeUTF(nm);
+                    dOut.writeInt(mr);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("done");
+                try {
+                    dIn = new DataInputStream(socket.getInputStream());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                int pln = 0;
+                while(true) {
+                    String name = null;
+                    try {
+                        name = dIn.readUTF();
+                        int Marks = dIn.readInt();
+                        if (Marks != (-1)) {
+                            marks[pln] = new pair(Marks, name);
+                            pln++;
+                        } else {
+                            marks[pln] = new pair(-1,"end");
+                            Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    LeaderBoard goLB = new LeaderBoard();
+                                    try {
+                                        goLB.Board(pS,marks,Player[0]);
+                                    } catch (IOException fileNotFoundException) {
+                                        fileNotFoundException.printStackTrace();
+                                    }
+                                }
+                            });
+                            break;
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                return null;
+            }
+        };
+        Thread t = new Thread(task);
+        t.start();
+        waitForRes gores = new waitForRes();
+        try {
+            gores.Result(pS);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Set<Integer> sendQSet()
+    {
+        return generatedQ;
     }
 }
