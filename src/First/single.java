@@ -27,7 +27,7 @@ public class single {
         for (int i = 0; i < questionSet.length; ++i) {
             questionSet[i] = new LinkedHashSet<Integer>();
         }
-        while (questionSet[0].size() < 4)
+        while (questionSet[0].size() < 4)          //easy part 1
         {
             Integer next = rng.nextInt((4 - 1) + 1) + 1;
             ((Set<Integer>)questionSet[0]).add(next);
@@ -35,14 +35,14 @@ public class single {
 
         System.out.println(questionSet[0]);
 
-        while (questionSet[1].size() < 3)
+        while (questionSet[1].size() < 3)          //easy part 2
         {
             Integer next = rng.nextInt((7-5)+1) + 5;
             ((Set<Integer>)questionSet[1]).add(next);
         }
         System.out.println(questionSet[1]);
 
-        while (questionSet[2].size() < 4)
+        while (questionSet[2].size() < 4)           //medium part 1
         {
             Integer next = rng.nextInt((4 - 1) + 1) + 1;
             ((Set<Integer>)questionSet[2]).add(next);
@@ -50,14 +50,14 @@ public class single {
 
         System.out.println(questionSet[2]);
 
-        while (questionSet[3].size() < 3)
+        while (questionSet[3].size() < 3)            //medium part 2
         {
             Integer next = rng.nextInt((7-5)+1) + 5;
             ((Set<Integer>)questionSet[3]).add(next);
         }
         System.out.println(questionSet[3]);
 
-        while (questionSet[4].size() < 7)
+        while (questionSet[4].size() < 7)             //hard
         {
             Integer next = rng.nextInt((7-1)+1) + 1;
             ((Set<Integer>)questionSet[4]).add(next);
@@ -66,9 +66,6 @@ public class single {
 
         SingleQues goQues = Object.getSq();
         goQues.QuesPass(primaryStage,questionSet,0);
-
-//        easy goEasy = new easy();
-//        goEasy.EASY(primaryStage,2, (Set<Integer>) questionSet[1],0,0,5,0);
 
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override

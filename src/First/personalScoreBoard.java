@@ -1,18 +1,14 @@
 package First;
 
 import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -20,49 +16,79 @@ import javafx.stage.WindowEvent;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Set;
 
-public class secondPage {
-
-    public void TheSecond(Stage primaryStage) throws Exception {
-
-        Image proj = new Image(new FileInputStream("src/Images/projB.png"));
-        ImageView projB = new ImageView(proj);
-
-        Button BtProj = new Button(null,projB);
-        BtProj.setBackground(null);
-        BtProj.setTranslateX(500);
-        BtProj.setTranslateY(300);
-
-        Image Back = new Image(new FileInputStream("src/Images/backButton.png"));
-        ImageView bb = new ImageView(Back);
-
-        Button back = new Button(null,bb);
-        back.setBackground(null);
-        back.setTranslateX(50);
-        back.setTranslateY(20);
-
-        Image background = new Image(new FileInputStream("src/Images/secPage.png"));
+public class personalScoreBoard {
+    int[][] questionSet = new int[10][6];
+    Text qNo[]= new Text[10];
+    Text marks[] = new Text[10];
+    Text time[] = new Text[10];
+    Button sol[] = new Button[10];
+    ImageView iv[] = new ImageView[10];
+    int position = 52;
+    double posOwn = 54.4;
+    int mrk,mrkT,qNum,min,sec,diff;
+    int bGap = 0;
+    double T,timeTotal;
+    public void Result(Stage primaryStage, int qTotal) throws FileNotFoundException {
         Pane root = new Pane();
-        root.getChildren().addAll(BtProj,back);
-
-        BtProj.setOnAction(e -> {
-            try {
-                ThirdPage PMenu = new ThirdPage();
-                PMenu.TheThird(primaryStage);
-            } catch (Exception excep) {
-                excep.printStackTrace();
-            }
-        });
-
-        back.setOnAction(e->{
-            try {
-                Main goBack = new Main();
-                goBack.start(primaryStage);
-            }catch (Exception ex)
-            {
-                ex.printStackTrace();
-            }
-        });
+        Canvas c = new Canvas(1600, 800);
+        GraphicsContext gc = c.getGraphicsContext2D();
+        SingleScore sc = Object.getSscore();
+        questionSet = sc.sendScore();
+        for(int i=0;i<qTotal;i++)
+        {
+            qNo[i] = new Text(""+ (i+1));
+            mrk = questionSet[i][0];
+            mrkT =questionSet[i][1];
+            qNum = questionSet[i][2];
+            min = questionSet[i][3];
+            sec = questionSet[i][4];
+            diff = questionSet[i][5];
+            marks[i] = new Text(mrk+" out of "+ mrkT);
+            T = min + (sec/60.0);
+            time[i] = new Text(String.format("%.2f",T) +" min");
+            setPos(qNo[i],330,(180+position));
+            setPos(marks[i],620,180+position);
+            setPos(time[i],890,180+position);
+            position += 52;
+            Image view = new Image(new FileInputStream("src/Images/viewSingle.png"));
+            iv[i] = new ImageView(view);
+            sol[i] = new Button(null,iv[i]);
+            sol[i].setBackground(null);
+            viewB(sol[i],210+bGap);
+            sol[i].setOnAction(e->{
+                Pane sol = new Pane();
+                Scene Solu = new Scene(sol, 1450, 800);
+                Image Solution = null;
+                try {
+                    System.out.println(qNum);
+                    if(diff==0)
+                    Solution = new Image(new FileInputStream("src/Images/"+qNum+"easy.png"));
+                    else if(diff==1)
+                        Solution = new Image(new FileInputStream("src/Images/"+qNum+"medium.png"));
+                    else
+                        Solution = new Image(new FileInputStream("src/Images/"+qNum+"hard.png"));
+                } catch (FileNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+                BackgroundImage bi = new BackgroundImage(Solution,
+                        BackgroundRepeat.NO_REPEAT,
+                        BackgroundRepeat.NO_REPEAT,
+                        BackgroundPosition.DEFAULT,
+                        BackgroundSize.DEFAULT);
+                Background Bg = new Background(bi);
+                Stage SS = new Stage();
+                SS.setScene(Solu);
+                sol.setBackground(Bg);
+                SS.show();
+            });
+            bGap+=52;
+            root.getChildren().addAll(qNo[i],marks[i],time[i],sol[i]);
+            System.out.println("Printing on board "+ mrk+" "+ mrkT);
+        }
+        Scene S = new Scene(root, 1600, 800);
+        Image background = new Image(new FileInputStream("src/Images/Sinperfo.png"));
 
         BackgroundImage bi = new BackgroundImage(background,
                 BackgroundRepeat.NO_REPEAT,
@@ -72,10 +98,7 @@ public class secondPage {
         Background bg = new Background(bi);
         root.setBackground(bg);
 
-
-        Scene scene = new Scene(root, 1600, 800);
-        primaryStage.setScene(scene);
-        //primaryStage.setFullScreen(true);
+        primaryStage.setScene(S);
         primaryStage.show();
 
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -130,22 +153,6 @@ public class secondPage {
             }
         });
     }
-
-    public Button setStyle ( Button b)
-    {
-        b.setStyle("-fx-padding: 8 15 15 15;\n" +
-                "    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;\n" +
-                "    -fx-background-radius: 8;\n" +
-                "    -fx-background-color: \n" +
-                "        linear-gradient(from 0% 93% to 0% 100%, #8d9092 0%, #717375 100%),\n" +
-                "        #8d9092,\n" +
-                "        #717375,\n" +
-                "        radial-gradient(center 50% 50%, radius 100%, #ffffff, #a1a3a6);\n" +
-                "    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );\n" +
-                "    -fx-font-weight: bold;\n" +
-                "    -fx-font-size: 1.3em;");
-        return b;
-    }
     public Button setStyleE(Button b) {
         b.setStyle("-fx-background-color: \n" +
                 "        linear-gradient(#f2f2f2, #d6d6d6),\n" +
@@ -157,6 +164,22 @@ public class secondPage {
                 "    -fx-font-weight: bold;\n" +
                 "    -fx-font-size: 1.6em;\n" +
                 "    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );");
+        return b;
+    }
+    public Text setPos(Text T, int X, int Y)
+    {
+        T.setTranslateX(X);
+        T.setTranslateY(Y);
+        T.setFill(Color.WHITE);
+        T.setScaleX(2);
+        T.setScaleY(2);
+        return T;
+    }
+    public Button viewB (Button b,int y)
+    {
+        b.setBackground(null);
+        b.setTranslateX(1130);
+        b.setTranslateY(y);
         return b;
     }
 }

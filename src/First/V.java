@@ -48,12 +48,12 @@ public class V extends Path {
             pt.setAutoReverse(false);
             pt.play();
 
-            def.setText("The velocity of a projectile consists of two components ( Vx & Vy ). So at any instance,\nVelocity = Vx + Vy.");
-            def.setTranslateX(400);
+            def.setText("The velocity of a projectile consists of two components ( Vx & Vy ). So at any\ninstance, Velocity = Vx + Vy.");
+            def.setTranslateX(420);
             def.setTranslateY(250);
             def.setScaleX(2);
             def.setScaleY(2);
-            def.setStroke(Color.LIGHTGOLDENRODYELLOW);
+            def.setFill(Color.rgb(0,106,143));
             def.setFont(Font.font("Times New Roman", FontPosture.ITALIC, 14));
 
             double sx = 250;

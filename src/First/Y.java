@@ -23,12 +23,12 @@ public class Y {
     {
         if(n==0) {
 
-            def.setText("The vertical displacement of a projectile is dependent only upon the acceleration of gravity and\nnot dependent upon the horizontal velocity.");
-            def.setTranslateX(400);
+            def.setText("The vertical displacement of a projectile is dependent only upon the acceleration of\ngravity and not dependent upon the horizontal velocity.");
+            def.setTranslateX(420);
             def.setTranslateY(250);
             def.setScaleX(2);
             def.setScaleY(2);
-            def.setStroke(Color.LIGHTGOLDENRODYELLOW);
+            def.setFill(Color.rgb(0,106,143));
             def.setFont(Font.font("Times New Roman", FontPosture.ITALIC, 14));
 
         double startx = 200;

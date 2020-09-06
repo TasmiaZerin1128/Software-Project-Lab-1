@@ -672,6 +672,7 @@ public class easy {
                                                         en.setVisible(false);
                                                         St.setVisible(false);
                                                         root.getChildren().add(sub);
+                                                        root.getChildren().removeAll(en,St);
                                                     }
                                                 }
                                             }));
@@ -907,14 +908,37 @@ public class easy {
             else
             {
                         quesTotal--;
-                        SingleScore scr = Object.getSscore();
-                        scr.StoreScore(M,points,num,minute,second);
-                        System.out.println(numbers);
-                        SingleQues sq = Object.getSq();
-                        try {
-                            sq.GiveQues(primaryStage, numbers, quesTotal, M, minute, second);
-                        } catch (IOException ioException) {
-                            ioException.printStackTrace();
+                        if(quesTotal==0)
+                        {
+                            SingleScore scr = Object.getSscore();
+                            scr.StoreScore(M-marks,points,num,min-minute-1,60-second,0);
+                            personalScoreBoard ps = new personalScoreBoard();
+                            try {
+                                ps.Result(primaryStage,10-quesTotal);
+                            } catch (FileNotFoundException fileNotFoundException) {
+                                fileNotFoundException.printStackTrace();
+                            }
+                        }
+                        else {
+                            SingleScore scr = Object.getSscore();
+                            scr.StoreScore(M - marks, points, num,min- minute-1,60 - second,0);
+                            if(timeup==1)
+                            {
+                                personalScoreBoard ps = new personalScoreBoard();
+                                try {
+                                    ps.Result(primaryStage,10-quesTotal);
+                                } catch (FileNotFoundException fileNotFoundException) {
+                                    fileNotFoundException.printStackTrace();
+                                }
+                            }
+                            else {
+                                SingleQues sq = Object.getSq();
+                                try {
+                                    sq.GiveQues(primaryStage, numbers, quesTotal, M, minute, second);
+                                } catch (IOException ioException) {
+                                    ioException.printStackTrace();
+                                }
+                            }
                         }
             }
         });

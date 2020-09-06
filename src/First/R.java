@@ -28,20 +28,21 @@ public class R {
     Text def = new Text();
     public void start(Pane root, int n, Button back) throws Exception {
         if(n==0) {
-            def.setText("The Range of a projectile is the horizontal distance covered (on the x-axis) by the projectile.\nThe Range is maximum when angle theta= 45°");
-            def.setTranslateX(400);
+            def.setText("The Range of a projectile is the horizontal distance covered (on the x-axis) by the\nprojectile. The Range is maximum when angle theta= 45°");
+            def.setTranslateX(420);
             def.setTranslateY(250);
             def.setScaleX(2);
             def.setScaleY(2);
-            def.setStroke(Color.LIGHTGOLDENRODYELLOW);
+            def.setFill(Color.rgb(0,106,143));
             def.setFont(Font.font("Times New Roman", FontPosture.ITALIC, 14));
 
             ball = new Circle(30);
             ball.setFill(Color.WHITE);
             ball.setTranslateX(200);
             ball.setTranslateY(700);
-            canvas = new Canvas(1050, 1000);
-            canvas.setTranslateX(115);
+            canvas = new Canvas(1050, 500);
+            canvas.setTranslateX(180);
+            canvas.setTranslateY(700);
 
             Path path = new Path();
             path.getElements().add(new MoveTo(200f, 700f));
@@ -66,9 +67,22 @@ public class R {
             pt.setAutoReverse(false);
             pt.play();
 
+            root.setOnMouseClicked(e->{
+                if(startP ==0) {
+                    pt.pause();
+                    startP = 1;
+                }
+                else
+                {
+                    pt.play();
+                    startP=0;
+                }
+
+            });
+
             GraphicsContext gc = canvas.getGraphicsContext2D();
             Image R = new Image(new FileInputStream("src/Images/range.png"));
-            gc.drawImage(R, 65, 710);
+            gc.drawImage(R, 0, 10);
             root.getChildren().addAll(canvas, ball, path,def);
         }
     else

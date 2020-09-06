@@ -27,12 +27,12 @@ public class T {
     public void start(Pane root, int n, Button back)
     {
         if(n==0) {
-            def.setText("T is the total time taken for the projectile to fall back to the same plane from which it was projected.");
-            def.setTranslateX(400);
+            def.setText("T is the total time taken for the projectile to fall back to the same plane from\nwhich it was projected.");
+            def.setTranslateX(420);
             def.setTranslateY(250);
             def.setScaleX(2);
             def.setScaleY(2);
-            def.setStroke(Color.LIGHTGOLDENRODYELLOW);
+            def.setFill(Color.rgb(0,106,143));
             def.setFont(Font.font("Times New Roman", FontPosture.ITALIC, 14));
 
             ball = new Circle(30);

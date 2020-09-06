@@ -50,12 +50,12 @@ public class Vy {
             pt.setAutoReverse(false);
             pt.play();
 
-            def.setText("The vertical component of the velocity changes linearly by 9.8m/s each second, as there is a\nvertical acceleration caused by gravity, which is 9.8 m/s/s, down.");
-            def.setTranslateX(400);
+            def.setText("The vertical component of the velocity changes linearly by 9.8m/s each second, as there\nis a vertical acceleration caused by gravity, which is 9.8 m/s/s, down.");
+            def.setTranslateX(420);
             def.setTranslateY(250);
             def.setScaleX(2);
             def.setScaleY(2);
-            def.setStroke(Color.LIGHTGOLDENRODYELLOW);
+            def.setFill(Color.rgb(0,106,143));
             def.setFont(Font.font("Times New Roman", FontPosture.ITALIC, 14));
 
             double startx = 200;

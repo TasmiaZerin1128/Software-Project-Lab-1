@@ -1343,12 +1343,38 @@ public class hard {
             else
             {
                 quesTotal--;
-                System.out.println(numbers);
-                SingleQues sq = Object.getSq();
-                try {
-                    sq.GiveQues(primaryStage,numbers,quesTotal,M,minute,second);
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
+                if(quesTotal==0)
+                {
+                    SingleScore scr = Object.getSscore();
+                    scr.StoreScore(M-marks,points,num,min-minute,sec-second,2);
+                    personalScoreBoard ps = new personalScoreBoard();
+                    try {
+                        ps.Result(primaryStage,10-quesTotal);
+                    } catch (FileNotFoundException fileNotFoundException) {
+                        fileNotFoundException.printStackTrace();
+                    }
+                }
+                else {
+                    SingleScore scr = Object.getSscore();
+                    scr.StoreScore(M - marks, points, num,min-minute, second,2);
+                    System.out.println("My marks: " + M);
+                    if(timeup==0)
+                    {
+                        personalScoreBoard ps = new personalScoreBoard();
+                        try {
+                            ps.Result(primaryStage,10-quesTotal);
+                        } catch (FileNotFoundException fileNotFoundException) {
+                            fileNotFoundException.printStackTrace();
+                        }
+                    }
+                    else {
+                        SingleQues sq = Object.getSq();
+                        try {
+                            sq.GiveQues(primaryStage, numbers, quesTotal, M, minute, second);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    }
                 }
             }
         });

@@ -82,6 +82,8 @@ public class Main extends Application {
         Object.setSq(sques);
         practice goPrac = new practice();
         Object.setPractice(goPrac);
+        SingleScore sc = new SingleScore();
+        Object.setSscore(sc);
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.drawImage(background, 0, 0);

@@ -27,12 +27,12 @@ public class H {
     Text def = new Text();
     public void start(Pane root, int n, Button back) throws Exception {
         if(n==0) {
-            def.setText("H is the maximum height attained by the projectile or the maximum displacement on the\nvertical axis(y-axis) covered by the projectile");
-            def.setTranslateX(400);
+            def.setText("H is the maximum height attained by the projectile or the maximum displacement\non the vertical axis(y-axis) covered by the projectile");
+            def.setTranslateX(420);
             def.setTranslateY(250);
             def.setScaleX(2);
             def.setScaleY(2);
-            def.setStroke(Color.LIGHTGOLDENRODYELLOW);
+            def.setFill(Color.rgb(0,106,143));
             def.setFont(Font.font("Times New Roman", FontPosture.ITALIC, 14));
 
         ball = new Circle(30);
@@ -40,7 +40,7 @@ public class H {
         ball.setTranslateX(200);
         ball.setTranslateY(700);
         canvas = new Canvas(1000, 1000);
-        canvas.setTranslateX(115);
+        canvas.setTranslateX(215);
 
             Path path = new Path();
             path.getElements().add(new MoveTo(200f, 700f));
@@ -65,9 +65,22 @@ public class H {
             pt.setAutoReverse(false);
             pt.play();
 
+            root.setOnMouseClicked(e->{
+                if(startP ==0) {
+                    pt.pause();
+                    startP = 1;
+                }
+                else
+                {
+                    pt.play();
+                    startP=0;
+                }
+
+            });
+
             GraphicsContext gc = canvas.getGraphicsContext2D();
             Image R = new Image(new FileInputStream("src/Images/height.png"));
-            gc.drawImage(R, 410, 340);
+            gc.drawImage(R, 310, 340);
             root.getChildren().addAll(canvas, ball, path,def);
         }
         else

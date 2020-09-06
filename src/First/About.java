@@ -98,12 +98,13 @@ public class About {
 
         Label timeLabel = new Label("Time: 1");
 
-        Button back = new Button("Back");
+        Image Back = new Image(new FileInputStream("src/Images/backButton.png"));
+        ImageView bb = new ImageView(Back);
+
+        Button back = new Button(null,bb);
+        back.setBackground(null);
         back.setTranslateX(50);
         back.setTranslateY(20);
-        setStyle(back);
-        back.setPrefSize(60, 30);
-
 
         Circle ball = new Circle(30);
         ball.setFill(Color.WHITE);
@@ -145,27 +146,20 @@ public class About {
         root.getChildren().add(path);
         root.getChildren().add(ball);
 
-        Image background = new Image(new FileInputStream("src/Images/bg.jpg"));
-        Label headning = new Label("Projectile");
-        headning.setScaleX(3);
-        headning.setScaleY(3);
-        root.getChildren().add(headning);
-        headning.setTranslateX(700);
-        headning.setTranslateY(50);
-        headning.setTextFill(Color.WHITE);
-        Label definition = new Label("Projectile motion is a form of motion experienced by an object or particle (a projectile)\n" +
-                "that is projected near the Earth's surface and moves along a curved path under the action of gravity only");
+        Image background = new Image(new FileInputStream("src/Images/aboutbg.png"));
+        Label definition = new Label("Projectile motion is a form of motion experienced by an object or particle (a projectile) that is\n" +
+                "projected near the Earth's surface and moves along a curved path under the action of gravity only");
         definition.setScaleX(2);
         definition.setScaleY(2);
         root.getChildren().add(definition);
-        definition.setTranslateX(400);
-        definition.setTranslateY(150);
+        definition.setTranslateX(430);
+        definition.setTranslateY(80);
         definition.setTextFill(Color.WHITE);
 
         Rectangle Ground = new Rectangle();
         Ground.setHeight(5);
-        Ground.setWidth(1000);
-        Ground.translateXProperty().set(150);
+        Ground.setWidth(990);
+        Ground.translateXProperty().set(180);
         Ground.translateYProperty().set(700);
         Ground.setFill(Color.WHITE);
 

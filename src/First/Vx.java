@@ -30,12 +30,12 @@ public class Vx {
             ball.setTranslateX(200);
             ball.setTranslateY(700);
 
-            def.setText("The horizontal component of the velocity of the object remains unchanged or constant throughout\nthe motion. No acceleration acts horizontally.");
-            def.setTranslateX(400);
+            def.setText("The horizontal component of the velocity of the object remains unchanged or constant\nthroughout the motion. No acceleration acts horizontally.");
+            def.setTranslateX(420);
             def.setTranslateY(250);
             def.setScaleX(2);
             def.setScaleY(2);
-            def.setStroke(Color.LIGHTGOLDENRODYELLOW);
+            def.setFill(Color.rgb(0,106,143));
             def.setFont(Font.font("Times New Roman", FontPosture.ITALIC, 14));
 
             Path path = new Path();

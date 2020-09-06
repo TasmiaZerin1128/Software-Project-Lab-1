@@ -23,12 +23,12 @@ public class X {
     public void start(Pane root, int n, Button back)
     {
         if(n==0) {
-            def.setText("The horizontal displacement of a projectile is only influenced by the speed at which it moves\nhorizontally (Vx) and the amount of time (T) that it has been moving horizontally.The force of\ngravity does not influence the horizontal motion");
-            def.setTranslateX(400);
+            def.setText("The horizontal displacement of a projectile is only influenced by the speed at which\nit moves horizontally (Vx) and the amount of time (T) that it has been moving horizontally.\nThe force of gravity does not influence the horizontal motion");
+            def.setTranslateX(420);
             def.setTranslateY(250);
             def.setScaleX(2);
             def.setScaleY(2);
-            def.setStroke(Color.LIGHTGOLDENRODYELLOW);
+            def.setFill(Color.rgb(0,106,143));
             def.setFont(Font.font("Times New Roman", FontPosture.ITALIC, 14));
 
         double startx = 200;
