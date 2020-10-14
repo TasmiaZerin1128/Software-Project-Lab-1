@@ -24,9 +24,9 @@ public class MultiScore {
     {
         TotalM = marks;
     }
-    public void sendP() throws IOException {
+    public void sendP(int signal) throws IOException {
         wait W = Object.getWait();
-        W.sendMarks(TotalM,N);
+        W.sendMarks(TotalM,N,signal); //signal 0 mane leave, 1 mane thik ase
     }
     public ArrayList sendInd()
     {

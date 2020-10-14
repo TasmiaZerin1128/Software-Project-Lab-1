@@ -1,6 +1,5 @@
 package First;
 
-import com.sun.source.doctree.TextTree;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -69,6 +68,7 @@ public class easy {
     int num;
     double mulX=6, mulY=4.5;
     int space = 0;
+    int countTime=0;
 
     TextField hh = new TextField();
     TextField TT = new TextField();
@@ -194,7 +194,7 @@ public class easy {
                     Type = st + ".jpg";
                     TypeF = "src/Images/" + st + ".jpg";
                     TypeL = "src/Images/L" + st + ".jpg";
-                    TypeB = "/Images/" + st + "B.jpg";
+                    TypeB = "src/Images/" + st + "B.jpg";
                     type = -1;
                 } else if (type == 0) {
                     if (st.contains("#")) {
@@ -321,7 +321,7 @@ public class easy {
         }
 
         PhongMaterial material = new PhongMaterial();
-        material.setDiffuseMap(new Image(getClass().getResourceAsStream(TypeB)));
+        material.setDiffuseMap(new Image(new FileInputStream(TypeB)));
         ball.setMaterial(material);
 
         timerL = new Label("Remaining Time: " + String.format("%02d", minute) + ":" + String.format("%02d",second));
@@ -654,6 +654,7 @@ public class easy {
                                             new EventHandler() {
                                                 @Override
                                                 public void handle(Event event) {
+                                                    countTime++;
                                                     second--;
                                                     if (second < 0) {
                                                         minute--;
@@ -845,16 +846,69 @@ public class easy {
                     ex.printStackTrace();
                 }
             });
-        } else
-        {
-            back.setOnAction(e -> {
-                try {
-                    examSM goBack = new examSM();
-                    goBack.SM(primaryStage);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            });
+        } else {
+            back.setOnAction(e->{
+                    Pane R = new Pane();
+                    Text exit = new Text("Do you want to leave the game?");
+                    exit.setScaleX(2.5);
+                    exit.setScaleY(2.5);
+                    exit.setTranslateX(280);
+                    exit.setTranslateY(100);
+                    exit.setFill(Color.WHITE);
+                    Button yes = new Button("Yes");
+                    setStyleE(yes);
+                    yes.setTranslateX(170);
+                    yes.setTranslateY(200);
+                    yes.setPrefSize(150, 50);
+                    Button no = new Button("No");
+                    setStyleE(no);
+                    no.setTranslateX(400);
+                    no.setTranslateY(200);
+                    no.setPrefSize(150, 50);
+                    R.getChildren().addAll(exit, yes, no);
+                    Scene S = new Scene(R, 700, 400);
+                    Stage eStage = new Stage();
+                    eStage.setScene(S);
+                    Image bg = null;
+                    try {
+                        bg = new Image(new FileInputStream("src/Images/exit.png"));
+                    } catch (FileNotFoundException fileNotFoundException) {
+                        fileNotFoundException.printStackTrace();
+                    }
+                    BackgroundImage bi = new BackgroundImage(bg,
+                            BackgroundRepeat.NO_REPEAT,
+                            BackgroundRepeat.NO_REPEAT,
+                            BackgroundPosition.DEFAULT,
+                            BackgroundSize.DEFAULT);
+                    Background b = new Background(bi);
+                    R.setBackground(b);
+                    S.setFill(Color.TRANSPARENT);
+                    eStage.initStyle(TRANSPARENT);
+                    eStage.show();
+
+                    yes.setOnAction(ev -> {
+                        if(exam==1) {
+                            MultiScore goMult = Object.getMulti();
+                            goMult.Score(M - marks);
+                            goMult.setFinalMarks(M);
+                            try {
+                                goMult.sendP(0);
+                            } catch (IOException ioException) {
+                                ioException.printStackTrace();
+                            }
+                        }
+                        try {
+                            examSM goBack = new examSM();
+                            goBack.SM(primaryStage);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                        eStage.close();
+                    });
+                    no.setOnAction(ev -> {
+                        eStage.close();
+                    });
+                });
         }
 
         Button next = new Button("Next");
@@ -880,7 +934,7 @@ public class easy {
                     goMult.Score(M-marks);
                     goMult.setFinalMarks(M);
                     try {
-                        goMult.sendP();
+                        goMult.sendP(1);
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }
@@ -911,7 +965,7 @@ public class easy {
                         if(quesTotal==0)
                         {
                             SingleScore scr = Object.getSscore();
-                            scr.StoreScore(M-marks,points,num,min-minute-1,60-second,0);
+                            scr.StoreScore(M-marks,points,num,countTime,0);
                             personalScoreBoard ps = new personalScoreBoard();
                             try {
                                 ps.Result(primaryStage,10-quesTotal);
@@ -921,7 +975,7 @@ public class easy {
                         }
                         else {
                             SingleScore scr = Object.getSscore();
-                            scr.StoreScore(M - marks, points, num,min- minute-1,60 - second,0);
+                            scr.StoreScore(M - marks, points, num,countTime,0);
                             if(timeup==1)
                             {
                                 personalScoreBoard ps = new personalScoreBoard();

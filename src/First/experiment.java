@@ -64,7 +64,7 @@ public class experiment extends Application {
 
         Alert a = new Alert(Alert.AlertType.NONE);
 
-        Image background = new Image(new FileInputStream("src/Images/backg.jpg"));
+        Image background = new Image(new FileInputStream("src/Images/expbg.png"));
 
         NumberAxis xAxis = new NumberAxis(0, 100, 5);
 
@@ -91,7 +91,9 @@ public class experiment extends Application {
                     xAxis.setUpperBound(xAxis.getUpperBound() + 50);
                     ballXpos = 24 /(xAxis.getUpperBound() / 50);
                     if(checkR==0)
-                    rectangle[y - 1].scaleXProperty().set(50 / (xAxis.getUpperBound() - 50));
+                        rectangle[y - 1].scaleXProperty().set(50 / (xAxis.getUpperBound() - 50));
+                    if(checkB==0)
+                        ball[x-1].scaleXProperty().set(50 / (xAxis.getUpperBound() - 50));
                 }
             }
             else if(e.getCode()==KeyCode.L)
@@ -136,8 +138,8 @@ public class experiment extends Application {
                     ballYpos = 10.7 / (yAxis.getUpperBound() / 50);
                     if (checkR == 0) {
                         rectangle[y - 1].scaleYProperty().set(50 / yAxis.getUpperBound());
-                    rectangle[y - 1].setTranslateY(700 - ((yAxis.getUpperBound()+50) * (700 - rectangle[y - 1].getTranslateY())) / yAxis.getUpperBound());
-                }
+                        rectangle[y - 1].setTranslateY(700 - ((yAxis.getUpperBound()+50) * (700 - rectangle[y - 1].getTranslateY())) / yAxis.getUpperBound());
+                    }
                 }
             }
         });
@@ -262,7 +264,7 @@ public class experiment extends Application {
         MenuItem V = new MenuItem("Add/Change Velocity");
         MenuItem Id = new MenuItem("Add/Change Direction");
         CM1.getItems().addAll(V,Id);
-        
+
         x++;
         item1.setOnAction(e -> {
             if(checkB==1)
@@ -299,18 +301,20 @@ public class experiment extends Application {
                             try {
                                 String Radius = Rad.getText();
                                 r = Integer.parseInt(Radius);
+
                                 if(r<=0 || r>25)
                                 {
                                     throw new Exception();
                                 }
                                 else {
+                                    System.out.println("radius "+r);
                                     checkB++;
                                     ball[x - 1].setRadius(r);
                                     root.getChildren().add(ball[x - 1]);
                                     ball[x - 1].setTranslateX(700);
                                     ball[x - 1].setTranslateY(300);
                                     PhongMaterial M = new PhongMaterial();
-                                    M.setDiffuseMap(new Image(getClass().getResourceAsStream("/Images/ball.jpg")));
+                                    M.setDiffuseMap(new Image(new FileInputStream("src/Images/ball.jpg")));
                                     ball[x - 1].setMaterial(M);
                                     radius.close();
                                 }
@@ -409,18 +413,18 @@ public class experiment extends Application {
                                     rectangle[y - 1].setTranslateY(700 - h / 2);
 
                                     PhongMaterial M = new PhongMaterial();
-                                    M.setDiffuseMap(new Image(getClass().getResourceAsStream("/Images/wall.jpg")));
+                                    M.setDiffuseMap(new Image(new FileInputStream("src/Images/wall.jpg")));
                                     rectangle[y - 1].setMaterial(M);
                                     root.getChildren().add(rectangle[y - 1]);
                                     size.close();
 
                                     rectangle[y - 1].setOnMouseDragged(E ->{
-                                            if((rectangle[y-1].getTranslateX() + E.getX()>(70+ w/2)) && (rectangle[y-1].getTranslateX()+E.getX()<(1305-w/2))) {
-                                                rectangle[y - 1].setTranslateX(rectangle[y - 1].getTranslateX() + E.getX());
-                                                obsAllX = ((xAxis.getUpperBound()*(rectangle[y-1].getTranslateX()-84))/1205);
-                                                Obsposition.setText("Position of obstacle while hovering:\nX: " + String.format("%.1f",obsAllX)+ " m");
-                                            }
-                                        });
+                                        if((rectangle[y-1].getTranslateX() + E.getX()>(70+ w/2)) && (rectangle[y-1].getTranslateX()+E.getX()<(1305-w/2))) {
+                                            rectangle[y - 1].setTranslateX(rectangle[y - 1].getTranslateX() + E.getX());
+                                            obsAllX = ((xAxis.getUpperBound()*(rectangle[y-1].getTranslateX()-84))/1205);
+                                            Obsposition.setText("Position of obstacle while hovering:\nX: " + String.format("%.1f",obsAllX)+ " m");
+                                        }
+                                    });
                                     rectangle[y-1].setOnContextMenuRequested(Event -> CM1.show(rectangle[y-1], Event.getScreenX(), Event.getScreenY()));
                                 }
                             }
@@ -455,27 +459,27 @@ public class experiment extends Application {
 
         V.setOnAction(e->{
             try {
-                    Stage velo = new Stage();
-                    GridPane VELO = new GridPane();
-                    VELO.setAlignment(Pos.CENTER);
-                    Label setV = new Label("Velocity:");
-                    Label CL = new Label("m/s");
-                    TextField Ve = new TextField();
-                    VELO.add(setV, 3, 0, 2, 1);
-                    VELO.add(Ve, 3, 10, 1, 1);
-                    VELO.add(CL, 25, 10, 1, 1);
-                    Scene S = new Scene(VELO, 300, 200);
-                    velo.setTitle("Velocity");
-                    velo.setScene(S);
-                    velo.show();
+                Stage velo = new Stage();
+                GridPane VELO = new GridPane();
+                VELO.setAlignment(Pos.CENTER);
+                Label setV = new Label("Velocity:");
+                Label CL = new Label("m/s");
+                TextField Ve = new TextField();
+                VELO.add(setV, 3, 0, 2, 1);
+                VELO.add(Ve, 3, 10, 1, 1);
+                VELO.add(CL, 25, 10, 1, 1);
+                Scene S = new Scene(VELO, 300, 200);
+                velo.setTitle("Velocity");
+                velo.setScene(S);
+                velo.show();
 
-                    S.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-                        if (event.getCode() == KeyCode.ENTER) {
-                            String Velocity = Ve.getText();
-                            vofObj1 = Double.parseDouble(Velocity);
-                            velo.close();
-                        }
-                    });
+                S.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+                    if (event.getCode() == KeyCode.ENTER) {
+                        String Velocity = Ve.getText();
+                        vofObj1 = Double.parseDouble(Velocity);
+                        velo.close();
+                    }
+                });
             }catch (Exception E) {
                 E.printStackTrace();
             }
@@ -520,14 +524,14 @@ public class experiment extends Application {
                         {
                             dir.close();
                         }
-                       if(r.isSelected()==true)
-                       {
-                           dire = 1;
-                       }
-                       else
-                       {
-                           dire= -1;
-                       }
+                        if(r.isSelected()==true)
+                        {
+                            dire = 1;
+                        }
+                        else
+                        {
+                            dire= -1;
+                        }
                     } catch (Exception Ev) {
                         Ev.printStackTrace();
                     }
@@ -535,7 +539,7 @@ public class experiment extends Application {
             }catch (Exception E) {
                 E.printStackTrace();
             }
-            });
+        });
 
 
         Ivelo.setOnAction(e -> {
@@ -619,13 +623,13 @@ public class experiment extends Application {
 
         Button St = new Button("Start");
         St.setPadding(new Insets(15));
-        setStyle(St);
-        St.setTranslateX(1200);
+        setStyleO(St);
+        St.setTranslateX(1160);
         St.setTranslateY(730);
 
         Button Pa = new Button("Pause");
         Pa.setPadding(new Insets(15));
-        setStyle(Pa);
+        setStyleO(Pa);
         Pa.setTranslateX(1280);
         Pa.setTranslateY(730);
 
@@ -865,9 +869,8 @@ public class experiment extends Application {
         });
 
         Button Re = new Button("Reset");
-        Re.setPadding(new Insets(15));
-        setStyle(Re);
-        Re.setTranslateX(1370);
+        setStyleO(Re);
+        Re.setTranslateX(1400);
         Re.setTranslateY(730);
 
         Re.setOnAction(e->{
@@ -921,8 +924,8 @@ public class experiment extends Application {
         Button back = new Button("Back");
         back.setTranslateX(50);
         back.setTranslateY(730);
-        setStyle(back);
-        back.setPrefSize(60, 30);
+        setStyleO(back);
+        back.setPrefSize(100, 30);
 
         back.setOnAction(e->{
             try{
@@ -1081,6 +1084,23 @@ public class experiment extends Application {
                 "    -fx-font-weight: bold;\n" +
                 "    -fx-font-size: 1.6em;\n" +
                 "    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );");
+        return b;
+    }
+    public Button setStyleO(Button b)
+    {
+        b.setStyle("-fx-background-color: \n" +
+                "        linear-gradient(#1289C4 0%, #40BAEC 25%, #0097CE 75%, #1289C4 100%),\n" +
+                "        linear-gradient(#40baec 0%, #0097ce 20%, #118cc6 80%, #1476a9 100%),\n" +
+                "        linear-gradient(#40baec 0%, #0097ce 20%, #118cc6 80%, #1476a9 100%),\n" +
+                "        linear-gradient(#40baec 0%, #0097ce 40%, #118cc6 80%, #1476a9 100%);\n" +
+                "    -fx-background-insets: 0,1,4,5,6;\n" +
+                "    -fx-background-radius: 9,8,5,4,3;\n" +
+                "    -fx-padding: 15 30 15 30;\n" +
+                "    -fx-font-family: \"Helvetica\";\n" +
+                "    -fx-font-size: 1.1em;\n" +
+                "    -fx-font-weight: bold;\n" +
+                "    -fx-text-fill: white;\n" +
+                "    -fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.2) , 1, 0.0 , 0 , 1);");
         return b;
     }
 }

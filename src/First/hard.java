@@ -34,6 +34,8 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import static javafx.stage.StageStyle.TRANSPARENT;
+
 public class hard {
     double t = 0,t2=0;
     String Type, TypeB, TypeTar,TypeTarF,TypeF,TypeL;
@@ -83,6 +85,7 @@ public class hard {
     double centerX, centerY, mulX, mulY, posX, posY, tarX, tarY;
     int projectileType = -1, yesX = 0, yesmulX = 0;
     double Sin, C, vx, vy, TotalV,k,j, angle,angleR;
+    int countTime=0;
 
     final ToggleGroup group = new ToggleGroup();
 
@@ -99,7 +102,7 @@ public class hard {
 
     RadioButton yes = new RadioButton("Yes");
     RadioButton no = new RadioButton("No");
-    RadioButton one = new RadioButton("First");
+    RadioButton one = new RadioButton("src/First");
     RadioButton two = new RadioButton("Second");
     RadioButton both = new RadioButton("Both");
 
@@ -249,9 +252,9 @@ public class hard {
                         ball2nd.setFill(Color.BLACK);
                     } else if (st.contains("sphere")) {
                         projectileType = 1;
-                        TypeB = "/Images/" + Type + "B.jpg";
+                        TypeB = "src/Images/" + Type + "B.jpg";
                         PhongMaterial material = new PhongMaterial();
-                        material.setDiffuseMap(new Image(getClass().getResourceAsStream(TypeB)));
+                        material.setDiffuseMap(new Image(new FileInputStream(TypeB)));
                         Ball.setMaterial(material);
                         Ball2nd.setMaterial(material);
                     } else if (st.contains("VAR")) {
@@ -1246,6 +1249,7 @@ public class hard {
                                 @Override
                                 public void handle(Event event) {
                                     second--;
+                                    countTime++;
                                     if (second < 0) {
                                         minute--;
                                         second = 59;
@@ -1285,14 +1289,79 @@ public class hard {
                 "    -fx-font-size: 1.1em;");
         back.setPrefSize(60, 30);
 
-        back.setOnAction(e -> {
-            try {
-                practice goBack = Object.getPractice();
-                goBack.start(primaryStage);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        });
+        if(exam==0) {
+            back.setOnAction(e -> {
+                try {
+                    practice goBack = Object.getPractice();
+                    goBack.start(primaryStage);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            });
+        } else {
+            back.setOnAction(e->{
+                Pane R = new Pane();
+                Text exit = new Text("Do you want to leave the game?");
+                exit.setScaleX(2.5);
+                exit.setScaleY(2.5);
+                exit.setTranslateX(280);
+                exit.setTranslateY(100);
+                exit.setFill(Color.WHITE);
+                Button yes = new Button("Yes");
+                setStyleE(yes);
+                yes.setTranslateX(170);
+                yes.setTranslateY(200);
+                yes.setPrefSize(150, 50);
+                Button no = new Button("No");
+                setStyleE(no);
+                no.setTranslateX(400);
+                no.setTranslateY(200);
+                no.setPrefSize(150, 50);
+                R.getChildren().addAll(exit, yes, no);
+                Scene S = new Scene(R, 700, 400);
+                Stage eStage = new Stage();
+                eStage.setScene(S);
+                Image bg = null;
+                try {
+                    bg = new Image(new FileInputStream("src/Images/exit.png"));
+                } catch (FileNotFoundException fileNotFoundException) {
+                    fileNotFoundException.printStackTrace();
+                }
+                BackgroundImage bi = new BackgroundImage(bg,
+                        BackgroundRepeat.NO_REPEAT,
+                        BackgroundRepeat.NO_REPEAT,
+                        BackgroundPosition.DEFAULT,
+                        BackgroundSize.DEFAULT);
+                Background b = new Background(bi);
+                R.setBackground(b);
+                S.setFill(Color.TRANSPARENT);
+                eStage.initStyle(TRANSPARENT);
+                eStage.show();
+
+                yes.setOnAction(ev -> {
+                    if(exam==1) {
+                        MultiScore goMult = Object.getMulti();
+                        goMult.Score(M - marks);
+                        goMult.setFinalMarks(M);
+                        try {
+                            goMult.sendP(0);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    }
+                    try {
+                        examSM goBack = new examSM();
+                        goBack.SM(primaryStage);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    eStage.close();
+                });
+                no.setOnAction(ev -> {
+                    eStage.close();
+                });
+            });
+        }
 
         Button next = new Button("Next");
         next.setTranslateX(1400);
@@ -1314,7 +1383,7 @@ public class hard {
                     goMult.Score(M-marks);
                     goMult.setFinalMarks(M);
                     try {
-                        goMult.sendP();
+                        goMult.sendP(1);
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }
@@ -1333,7 +1402,7 @@ public class hard {
                         MultiScore goMulti = Object.getMulti();
                         goMulti.setFinalMarks(M);
                         try {
-                            goMult.sendP();
+                            goMult.sendP(1);
                         } catch (IOException ioException) {
                             ioException.printStackTrace();
                         }
@@ -1346,7 +1415,7 @@ public class hard {
                 if(quesTotal==0)
                 {
                     SingleScore scr = Object.getSscore();
-                    scr.StoreScore(M-marks,points,num,min-minute,sec-second,2);
+                    scr.StoreScore(M-marks,points,num,countTime,2);
                     personalScoreBoard ps = new personalScoreBoard();
                     try {
                         ps.Result(primaryStage,10-quesTotal);
@@ -1356,7 +1425,7 @@ public class hard {
                 }
                 else {
                     SingleScore scr = Object.getSscore();
-                    scr.StoreScore(M - marks, points, num,min-minute, second,2);
+                    scr.StoreScore(M - marks, points, num,countTime,2);
                     System.out.println("My marks: " + M);
                     if(timeup==0)
                     {

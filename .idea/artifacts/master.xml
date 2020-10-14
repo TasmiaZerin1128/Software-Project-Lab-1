@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact type="javafx" name="SPL-1">
-    <output-path>$PROJECT_DIR$/out/artifacts/SPL_1</output-path>
+  <artifact type="javafx" name="master">
+    <output-path>$PROJECT_DIR$/out/artifacts/master</output-path>
     <properties id="javafx-properties">
       <options>
         <option name="appClass" value="First.Main" />

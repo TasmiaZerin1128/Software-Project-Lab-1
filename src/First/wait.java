@@ -257,6 +257,10 @@ public class wait {
         back.setTranslateX(50);
         back.setTranslateY(20);
         back.setOnAction(e -> {
+            if(eeStage.isShowing())
+            {
+                eeStage.close();
+            }
             try {
                 goMulti.Multi(primaryStage, 0, nServer);
                 examSM goBack = new examSM();
@@ -375,7 +379,7 @@ public class wait {
         return player;
     }
 
-    public void sendMarks(int mr,String nm) throws IOException {
+    public void sendMarks(int mr,String nm,int signal) throws IOException {
 
         Task task = new Task<Void>() {
             @Override
@@ -411,17 +415,19 @@ public class wait {
                             pln++;
                         } else {
                             marks[pln] = new pair(-1,"end");
-                            Platform.runLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    LeaderBoard goLB = new LeaderBoard();
-                                    try {
-                                        goLB.Board(pS,marks,Player[0]);
-                                    } catch (IOException fileNotFoundException) {
-                                        fileNotFoundException.printStackTrace();
+                            if(signal==1) {
+                                Platform.runLater(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        LeaderBoard goLB = new LeaderBoard();
+                                        try {
+                                            goLB.Board(pS, marks, Player[0]);
+                                        } catch (IOException fileNotFoundException) {
+                                            fileNotFoundException.printStackTrace();
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            }
                             break;
                         }
                     } catch (IOException e) {
@@ -433,11 +439,13 @@ public class wait {
         };
         Thread t = new Thread(task);
         t.start();
-        waitForRes gores = new waitForRes();
-        try {
-            gores.Result(pS);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        if(signal==1) {
+            waitForRes gores = new waitForRes();
+            try {
+                gores.Result(pS);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 

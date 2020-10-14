@@ -200,6 +200,24 @@ public class LeaderBoard {
             sol.setBackground(Bg);
             SS.show();
         });
+
+        Image Back = new Image(new FileInputStream("src/Images/backButton.png"));
+        ImageView bb = new ImageView(Back);
+
+        Button back = new Button(null,bb);
+        back.setBackground(null);
+        back.setTranslateX(50);
+        back.setTranslateY(20);
+        back.setOnAction(e->{
+            examSM goSM = new examSM();
+            try {
+                goSM.SM(primaryStage);
+            } catch (FileNotFoundException fileNotFoundException) {
+                fileNotFoundException.printStackTrace();
+            }
+        });
+
+        root.getChildren().add(back);
         Scene S = new Scene(root, 1600, 800);
         Image background = new Image(new FileInputStream("src/Images/leaderboard.png"));
 

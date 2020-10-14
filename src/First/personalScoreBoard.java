@@ -19,7 +19,7 @@ import java.io.FileNotFoundException;
 import java.util.Set;
 
 public class personalScoreBoard {
-    int[][] questionSet = new int[10][6];
+    int[][] questionSet = new int[10][5];
     Text qNo[]= new Text[10];
     Text marks[] = new Text[10];
     Text time[] = new Text[10];
@@ -27,7 +27,7 @@ public class personalScoreBoard {
     ImageView iv[] = new ImageView[10];
     int position = 52;
     double posOwn = 54.4;
-    int mrk,mrkT,qNum,min,sec,diff;
+    int mrk,mrkT,qNum,min,diff;
     int bGap = 0;
     double T,timeTotal;
     public void Result(Stage primaryStage, int qTotal) throws FileNotFoundException {
@@ -43,10 +43,9 @@ public class personalScoreBoard {
             mrkT =questionSet[i][1];
             qNum = questionSet[i][2];
             min = questionSet[i][3];
-            sec = questionSet[i][4];
-            diff = questionSet[i][5];
+            diff = questionSet[i][4];
             marks[i] = new Text(mrk+" out of "+ mrkT);
-            T = min + (sec/60.0);
+            T = min/60.0;
             time[i] = new Text(String.format("%.2f",T) +" min");
             setPos(qNo[i],330,(180+position));
             setPos(marks[i],620,180+position);

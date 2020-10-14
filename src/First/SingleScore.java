@@ -8,16 +8,15 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class SingleScore {
-    int[][] questionSet = new int[10][6];
+    int[][] questionSet = new int[10][5];
     static int i=0;
-    public void StoreScore(int marks, int mTotal, int qNo, int minute, int second,int diff)
+    public void StoreScore(int marks, int mTotal, int qNo, int second,int diff)
     {
         questionSet[i][0] = marks;
         questionSet[i][1] = mTotal;
         questionSet[i][2] = qNo;
-        questionSet[i][3] = minute;
-        questionSet[i][4] = second;
-        questionSet[i][5] = diff;
+        questionSet[i][3] = second;
+        questionSet[i][4] = diff;
         i++;
     }
     public int[][] sendScore()
