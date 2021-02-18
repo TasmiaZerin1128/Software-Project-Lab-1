@@ -75,7 +75,6 @@ public class secondPage {
 
         Scene scene = new Scene(root, 1600, 800);
         primaryStage.setScene(scene);
-        //primaryStage.setFullScreen(true);
         primaryStage.show();
 
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {

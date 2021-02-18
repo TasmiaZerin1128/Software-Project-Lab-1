@@ -209,9 +209,9 @@ public class category {
                         ball.setFill(Color.BLACK);
                     } else if (st.contains("sphere")) {
                         projectileType = 1;
-                        TypeB = "/src/Images/" + Type + "B.jpg";
+                        TypeB = "src/Images/" + Type + "B.jpg";
                         PhongMaterial material = new PhongMaterial();
-                        material.setDiffuseMap(new Image(getClass().getResourceAsStream(TypeB)));
+                        material.setDiffuseMap(new Image(new FileInputStream(TypeB)));
                         Ball.setMaterial(material);
                     } else if (st.contains("VAR")) {
                         flag = 2;

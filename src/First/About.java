@@ -212,7 +212,7 @@ public class About {
             if(clkX==0) {
                 try {
                     root.getChildren().remove(ball);
-                    BtX.setBackground(new Background(new BackgroundFill(Color.DARKBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+                    BtX.setBackground(new Background(new BackgroundFill(Color.DARKBLUE, new CornerRadii(5), Insets.EMPTY)));
                     BtVx.setBackground(null);
                     BtVy.setBackground(null);
                     BtV.setBackground(null);
@@ -248,7 +248,7 @@ public class About {
             if(clkY==0) {
                 try {
                     root.getChildren().remove(ball);
-                    BtY.setBackground(new Background(new BackgroundFill(Color.DARKBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+                    BtY.setBackground(new Background(new BackgroundFill(Color.DARKBLUE, new CornerRadii(5), Insets.EMPTY)));
                     BtVx.setBackground(null);
                     BtVy.setBackground(null);
                     BtV.setBackground(null);
@@ -284,7 +284,7 @@ public class About {
             if(clkR==0) {
                 try {
                     root.getChildren().remove(ball);
-                    BtR.setBackground(new Background(new BackgroundFill(Color.DARKBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+                    BtR.setBackground(new Background(new BackgroundFill(Color.DARKBLUE, new CornerRadii(5), Insets.EMPTY)));
                     BtVx.setBackground(null);
                     BtVy.setBackground(null);
                     BtV.setBackground(null);
@@ -320,7 +320,7 @@ public class About {
             if(clkHm==0) {
                 try {
                     root.getChildren().remove(ball);
-                    BtHm.setBackground(new Background(new BackgroundFill(Color.DARKBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+                    BtHm.setBackground(new Background(new BackgroundFill(Color.DARKBLUE,new CornerRadii(5), Insets.EMPTY)));
                     BtVx.setBackground(null);
                     BtVy.setBackground(null);
                     BtV.setBackground(null);
@@ -356,7 +356,7 @@ public class About {
             if(clkV==0) {
                 try {
                     root.getChildren().remove(ball);
-                    BtV.setBackground(new Background(new BackgroundFill(Color.DARKBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+                    BtV.setBackground(new Background(new BackgroundFill(Color.DARKBLUE, new CornerRadii(5), Insets.EMPTY)));
                     BtVx.setBackground(null);
                     BtVy.setBackground(null);
                     BtX.setBackground(null);
@@ -392,7 +392,7 @@ public class About {
             if(clkVx==0) {
                 try {
                     root.getChildren().remove(ball);
-                    BtVx.setBackground(new Background(new BackgroundFill(Color.DARKBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+                    BtVx.setBackground(new Background(new BackgroundFill(Color.DARKBLUE, new CornerRadii(5), Insets.EMPTY)));
                     BtX.setBackground(null);
                     BtVy.setBackground(null);
                     BtV.setBackground(null);
@@ -428,7 +428,7 @@ public class About {
             if(clkVy==0) {
                 try {
                     root.getChildren().remove(ball);
-                    BtVy.setBackground(new Background(new BackgroundFill(Color.DARKBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+                    BtVy.setBackground(new Background(new BackgroundFill(Color.DARKBLUE, new CornerRadii(5), Insets.EMPTY)));
                     BtVx.setBackground(null);
                     BtX.setBackground(null);
                     BtV.setBackground(null);
@@ -464,7 +464,7 @@ public class About {
             if(clkTm==0) {
                 try {
                     root.getChildren().remove(ball);
-                    BtTm.setBackground(new Background(new BackgroundFill(Color.DARKBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+                    BtTm.setBackground(new Background(new BackgroundFill(Color.DARKBLUE, new CornerRadii(5), Insets.EMPTY)));
                     BtVx.setBackground(null);
                     BtVy.setBackground(null);
                     BtV.setBackground(null);
@@ -557,7 +557,7 @@ public class About {
     {
         b.setStyle("-fx-padding: 8 15 15 15;\n" +
                 "    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;\n" +
-                "    -fx-background-radius: 8;\n" +
+                "    -fx-background-radius: 8,7,6;\n" +
                 "    -fx-background-color: \n" +
                 "        linear-gradient(from 0% 93% to 0% 100%, #8d9092 0%, #717375 100%),\n" +
                 "        #8d9092,\n" +
