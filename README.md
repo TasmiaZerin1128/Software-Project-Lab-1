@@ -1,2 +1,2 @@
 # SPL1-Server
-Code for Server
+Code for Client Master
