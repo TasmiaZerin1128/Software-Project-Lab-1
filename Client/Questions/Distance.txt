@@ -1,0 +1,46 @@
+1)
+A tank fires a bullet from tank gun horizontally with a velocity of 980m/s. It reaches
+the ground at 2s. Calculate the distance between tank and the position of the bullet
+hitting the ground.
+#
+tank
+ellipse
+VAR
+v
+980
+theta
+0
+T
+2
+ANS
+xAxisD
+CENTER
+734
+465
+MUL
+0.3
+10
+END
+2)
+A tank fires a bullet from tank gun horizontally with a velocity of 980m/s. It reaches
+the ground at 2s. Calculate the distance between tank and the position of the bullet
+hitting the ground.
+#
+tank
+ellipse
+VAR
+v
+980
+theta
+0
+T
+2
+ANS
+xAxisD
+CENTER
+734
+465
+MUL
+0.3
+10
+END

@@ -1,0 +1,225 @@
+1)
+A batsman hits a cricket ball by the velocity of 15 m/s making an angle of 45 degree with
+the ground. A fielder is standing 50 m away from it. At what velocity the fielder should run
+so that he can catch the ball before hitting the ground?
+#
+cricket
+sphere
+1
+VAR
+v
+15
+theta
+45
+ANS
+TargetVelo
+POINT
+6
+CENTER
+365
+700
+MUL
+19.2
+9.6
+TARGET
+fielder
+1325
+550
+-12.5
+END
+2)
+A fighter plane is flying 3 km above the ground at 200 m/s. A soldier targets the plane from ground
+to shoot. When the plane is right above him, he fires a bullet at 500 m/s. For what initial launch
+angle will the bullet hit the plane?
+#
+plane
+sphere
+1
+VAR
+v
+500
+theta
+66.40
+T
+7.08
+ANS
+theta
+POINT
+7
+CENTER
+265
+550
+MUL
+0.5
+0.1
+TARGET
+plane
+40
+150
+200
+END
+ans - 66.42
+3)
+A deer is sitting 32.94 m away from a hunter. The hunter throws arrow at 30 m/s with 30 degree
+angle horizontally. At the same time the deer runs at 10 m/s from still position. Can the arrow
+hit the deer?
+#
+hunting
+ellipse
+1
+VAR
+v
+30
+theta
+30
+T
+3
+ANS
+Y/N
+POINT
+7
+CENTER
+370
+460
+MUL
+9.5
+15
+TARGET
+deer
+696.46
+330
+10
+END
+Ans - 3/2.2 s
+4)
+Frieza is standing 32.94 m away from Goku. Goku throws lighting ball at 30 m/s with 30 degree
+angle horizontally. At the same time Frieza runs at 10 m/s from still position. Can the ball
+hit Frieza?
+#
+dbzGoku
+sphere
+1
+VAR
+v
+30
+theta
+30
+T
+3
+ANS
+Y/N
+POINT
+7
+CENTER
+300
+470
+MUL
+10
+10
+TARGET
+frieza
+670
+350
+10
+END
+5)**
+A bullet from a cannon is fired from the top of a hill of height 60 m at an angle of 53 degree
+with velocity of 25 m/s. If similar bullet is fired from the top of the hill with same force
+along the horizontal, then which bullet will hit the ground first?
+#
+hill
+sphere
+2
+VAR
+v
+25
+theta
+53
+T
+6.60
+V
+25
+angle
+0
+time
+4.10
+ANS
+One/Two
+POINT
+6
+CENTER
+440
+320
+MUL
+8
+5
+END
+6)
+By sitting on the branch of a tree at a height of 30 m a hunter fired a bullet with horizontal
+velocity of 20 m/s to hunt a bird. At the same time a bullet kept in hunter's pocket dropped
+on the ground from the same height. Which one of the two bullets will fall on the ground first?
+#
+night
+ellipse
+2
+VAR
+v
+20
+theta
+0
+T
+2.50
+V
+0
+angle
+0
+time
+2.50
+ANS
+One/Two
+POINT
+6
+CENTER
+668
+335
+MUL
+9.7
+9.7
+TARGET
+bird
+1145
+620
+0
+END
+7)
+An enemy is standing 32.94 m away from a player. The player shoots a bullet at 30 m/s with 30
+degree angle horizontally. At the same time enemy runs at 10 m/s from still position. Can the
+bullet hit the enemy?
+#
+pubg
+ellipse
+1
+VAR
+v
+30
+theta
+30
+T
+3
+ANS
+Y/N
+POINT
+6
+CENTER
+530
+495
+MUL
+10
+10
+TARGET
+enemy
+950
+400
+10
+END
+
