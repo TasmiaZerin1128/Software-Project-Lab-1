@@ -1,4 +1,4 @@
 # SPL1-Client
 Code for Client
 
-Used for joining the multiplayer game
+Used for joining the multiplayer mode
