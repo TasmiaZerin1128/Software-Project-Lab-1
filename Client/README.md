@@ -1,2 +1,2 @@
 # SPL1-Client
-FUSICS - Client
+Code for client
