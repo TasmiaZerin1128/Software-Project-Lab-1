@@ -1,0 +1,40 @@
+1)
+A rock is thrown at some velocity and angle. For which initial launch angle the
+Horizontal Range and Maximum Height will be the same?
+#
+military
+sphere
+VAR
+v
+50
+theta
+76
+ANS
+theta
+CENTER
+200
+650
+MUL
+6
+4.5
+END
+2)
+The horizontal range of a projectile is 79.53 m and flight time is 5.3 s. Find out the initial
+angle of the projectile.
+#
+object
+sphere
+VAR
+v
+30
+theta
+60
+ANS
+theta
+CENTER
+200
+700
+MUL
+15
+10
+END
