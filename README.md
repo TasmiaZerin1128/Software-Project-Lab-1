@@ -1,6 +1,6 @@
 Software Project Lab 1 - 2020
 
-FUSICS      
+        FUSICS      
 
 Fun with Physics
 
