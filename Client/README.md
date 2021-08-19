@@ -1,2 +1,4 @@
 # SPL1-Client
-Code for client
+Code for Client
+
+Used for joining the multiplayer game
