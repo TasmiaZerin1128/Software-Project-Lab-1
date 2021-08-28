@@ -86,6 +86,26 @@ public class personalScoreBoard {
             root.getChildren().addAll(qNo[i],marks[i],time[i],sol[i]);
             System.out.println("Printing on board "+ mrk+" "+ mrkT);
         }
+
+        Image Back = new Image(new FileInputStream("src/Images/backButton.png"));
+        ImageView bb = new ImageView(Back);
+
+        Button back = new Button(null,bb);
+        back.setBackground(null);
+        back.setTranslateX(50);
+        back.setTranslateY(20);
+
+        back.setOnAction(e -> {
+                        try {
+                            examSM goBack = new examSM();
+                            goBack.SM(primaryStage);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+        });
+
+        root.getChildren().addAll(back);
+
         Scene S = new Scene(root, 1600, 800);
         Image background = new Image(new FileInputStream("src/Images/Sinperfo.png"));
 
@@ -163,6 +183,20 @@ public class personalScoreBoard {
                 "    -fx-font-weight: bold;\n" +
                 "    -fx-font-size: 1.6em;\n" +
                 "    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );");
+        return b;
+    }
+    public Button setStyle(Button b) {
+        b.setStyle("-fx-padding: 8 15 15 15;\n" +
+                "    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;\n" +
+                "    -fx-background-radius: 8;\n" +
+                "    -fx-background-color: \n" +
+                "        linear-gradient(from 0% 93% to 0% 100%, #8d9092 0%, #717375 100%),\n" +
+                "        #8d9092,\n" +
+                "        #717375,\n" +
+                "        radial-gradient(center 50% 50%, radius 100%, #ffffff, #a1a3a6);\n" +
+                "    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );\n" +
+                "    -fx-font-weight: bold;\n" +
+                "    -fx-font-size: 1.1em;");
         return b;
     }
     public Text setPos(Text T, int X, int Y)
