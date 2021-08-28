@@ -1,8 +1,8 @@
-Instructions to use this Stage:
+Instructions to use this Feature:
 
 
 1. Use circle for adding ball as projectile.
-2. Use rectangle as obstacles (ex: wall, human etc)
+2. Use rectangle as obstacles (i.g.: wall, human etc)
 3. Use L for scaling down X axis, R for scaling up X axis
 4. Use D for scaling down Y axis, U for scaling up Y axis
 5. Move the ball and obstacle by dragging
