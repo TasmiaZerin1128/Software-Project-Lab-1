@@ -644,6 +644,9 @@ public class easy {
                     ANS.setText("Wrong Answer");
                     ANS.setFill(Color.RED);
                 }
+                ss.setVisible(true);
+                rt.setVisible(true);
+                vs.setVisible(true);
             }
         });
 
@@ -682,9 +685,6 @@ public class easy {
             timeline.playFromStart();
         }
 
-        ss.setVisible(true);
-        rt.setVisible(true);
-        vs.setVisible(true);
         ss.setOnAction(eve -> {
             Pane sol = new Pane();
             Scene Solu = new Scene(sol, 1450, 800);
