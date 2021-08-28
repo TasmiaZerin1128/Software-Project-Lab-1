@@ -1031,7 +1031,7 @@ public class category {
 
         Button back = new Button("Back");
         back.setTranslateX(50);
-        back.setTranslateY(20);
+        back.setTranslateY(730);
         back.setStyle("-fx-padding: 8 15 15 15;\n" +
                 "    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;\n" +
                 "    -fx-background-radius: 8;\n" +
