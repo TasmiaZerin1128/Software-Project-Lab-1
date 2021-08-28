@@ -85,6 +85,25 @@ public class personalScoreBoard {
             root.getChildren().addAll(qNo[i],marks[i],time[i],sol[i]);
             System.out.println("Printing on board "+ mrk+" "+ mrkT);
         }
+
+        Image Back = new Image(new FileInputStream("src/Images/backButton.png"));
+        ImageView bb = new ImageView(Back);
+
+        Button back = new Button(null,bb);
+        back.setBackground(null);
+        back.setTranslateX(50);
+        back.setTranslateY(20);
+
+        back.setOnAction(e -> {
+            try {
+                examSM goBack = new examSM();
+                goBack.SM(primaryStage);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        root.getChildren().addAll(back);
         Scene S = new Scene(root, 1600, 800);
         Image background = new Image(new FileInputStream("src/Images/Sinperfo.png"));
 
